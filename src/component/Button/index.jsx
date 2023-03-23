@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { STYLES } from '../../constant/style';
+import { STYLES } from '../../constant';
 function Button({
   to,
   href,
@@ -41,6 +41,7 @@ function Button({
       } hover:opacity-80 w-max h-full max-h-12 overflow-hidden ${
         rouded && 'rounded-md'
       }`}
+      {...props}
     >
       <Comp
         className={`px-5 py-3 flex my-auto ${STYLES.text.text_white} text-lg font-semibold ${className}`}

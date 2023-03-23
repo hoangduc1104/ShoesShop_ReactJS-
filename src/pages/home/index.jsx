@@ -1,8 +1,8 @@
 import React from 'react';
-import { STYLES } from '../../constant/style';
 import { BsSearch } from 'react-icons/bs';
 import Button from '../../component/Button';
 import DropdownComponent from '../../component/Dropdown';
+import { STYLES } from '../../constant';
 
 const HomePage = () => {
   return (

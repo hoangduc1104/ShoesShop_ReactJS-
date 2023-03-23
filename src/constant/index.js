@@ -1,7 +1,9 @@
 export const STYLES = {
   width: {
-    sidebar_lg: '60',
-    sidebar_sm: '10',
+    sidebar_lg: 'w-60',
+    sidebar_sm: 'w-14',
+    container_left_lg: 'left-60',
+    container_left_sm: 'left-10',
   },
   background: {
     bg_primary: 'bg-[#ffffff]',
@@ -11,6 +13,7 @@ export const STYLES = {
     text_white: 'text-[#ffffff]',
     text_primary: 'text-[#000000]',
     text_secondary: 'text-[#9e9e9e]',
+    text_orange: 'text-orange-600',
   },
   button: {
     primary: 'bg-orange-600',

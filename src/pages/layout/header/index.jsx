@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { STYLES } from '../../../constant/style';
 import logo from '../../../logo.png';
 import avatar from '../../../ava.png';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiLogIn } from 'react-icons/bi';
 import Button from '../../../component/Button';
+import { STYLES } from '../../../constant';
+import DropdownComponent from '../../../component/Dropdown';
+import MenuItem from '../../../component/MenuItem';
+import { FaUserEdit } from 'react-icons/fa';
+import { HiOutlineLogout } from 'react-icons/hi';
 
 const Header = () => {
-  const [author, setAuthor] = useState(true);
+  const [author, setAuthor] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   return (
     <div className={`${STYLES.background.bg_primary} h-20 shadow-md`}>
       <div className=" my-auto w-full">
@@ -28,7 +33,7 @@ const Header = () => {
           </form>
           <div className="action flex">
             <div
-              className={`${STYLES.text.text_primary} text-4xl cart my-auto cursor-pointer hover:text-${STYLES.color.primary} relative`}
+              className={`${STYLES.text.text_primary} text-4xl cart my-auto cursor-pointer hover:${STYLES.text.text_orange} relative`}
             >
               <div
                 className={`text-xs text-white absolute -right-2 -top-1 bg-${STYLES.color.primary} rounded-full overflow-hidden`}
@@ -38,19 +43,54 @@ const Header = () => {
               <AiOutlineShoppingCart />
             </div>
             {author ? (
-              <div className="account flex ml-10 text-xl font-semibold my-auto cursor-pointer">
-                <img src={avatar} alt="" className="w-10 h-10 rounded-full" />
-                <span
-                  className={`hover:text-${STYLES.color.primary} my-auto ml-2`}
-                  data-dropdown-toggle="dropdown"
-                  id="dropdownDefaultButton"
+              <div className="group my-auto relative">
+                <div
+                  onClick={() => setOpenMenu(!openMenu)}
+                  className={`account flex ml-10 text-xl font-semibold my-auto cursor-pointer hover:text-${STYLES.color.primary}`}
                 >
-                  Hoang Duc
-                </span>
+                  <img src={avatar} alt="" className="w-10 h-10 rounded-full" />
+                  <span
+                    className={` my-auto ml-2`}
+                    data-dropdown-toggle="dropdown"
+                    id="dropdownDefaultButton"
+                  >
+                    Hoang Duc
+                  </span>
+                </div>
+                <div
+                  className={`absolute top-12 -right-4  ${
+                    openMenu ? 'block' : 'hidden'
+                  } group-hover:block`}
+                >
+                  <DropdownComponent
+                    footer
+                    footerChild={
+                      <MenuItem
+                        icon={<HiOutlineLogout />}
+                        onClick={() => setAuthor(!author)}
+                      >
+                        {' '}
+                        Đăng xuất
+                      </MenuItem>
+                    }
+                  >
+                    <ul
+                      className={`${STYLES.text.text_secondary} py-2 text-sm dark:text-gray-200`}
+                    >
+                      <li>
+                        <MenuItem icon={<FaUserEdit />}>Tài khoản</MenuItem>
+                      </li>
+                    </ul>
+                  </DropdownComponent>
+                </div>
               </div>
             ) : (
               <div className="flex ml-10 text-xl font-semibold my-auto cursor-pointer">
-                <Button leftIcon={<BiLogIn />} rouded>
+                <Button
+                  leftIcon={<BiLogIn />}
+                  rouded
+                  onClick={() => setAuthor(!author)}
+                >
                   Đăng Nhập
                 </Button>
               </div>

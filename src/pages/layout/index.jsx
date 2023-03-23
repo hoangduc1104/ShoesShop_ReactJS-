@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { STYLES } from '../../constant/style';
+import { STYLES } from '../../constant';
 import Header from './header';
 import Sidebar from './sidebar';
 
@@ -13,7 +13,7 @@ const Layout = () => {
       <div className="flex relative top-20 w-full">
         <Sidebar />
         <div
-          className={`${STYLES.background.bg_secondary} absolute left-${STYLES.width.sidebar_lg} m-auto px-0 w-[calc(100%-240px)]`}
+          className={`${STYLES.background.bg_secondary} absolute ${STYLES.width.container_left_lg} m-auto px-0 w-[calc(100%-240px)]`}
         >
           <div className="container p-6">
             <Outlet />
