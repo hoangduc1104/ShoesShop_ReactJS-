@@ -3,7 +3,7 @@ export const STYLES = {
     sidebar_lg: 'w-60',
     sidebar_sm: 'w-14',
     container_left_lg: 'left-60',
-    container_left_sm: 'left-10',
+    container_left_sm: 'left-14',
   },
   background: {
     bg_primary: 'bg-[#ffffff]',
