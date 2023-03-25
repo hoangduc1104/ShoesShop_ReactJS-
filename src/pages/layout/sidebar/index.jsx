@@ -6,21 +6,10 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import MenuItem from '../../../component/MenuItem';
 import { STYLES } from '../../../constant';
 
-const Sidebar = () => {
-  var bool = localStorage.getItem('isShow_sidebar') === 'true';
-  const [showBar, setShowBar] = useState(bool);
-
-  useEffect(() => {
-    setShowBar(bool);
-  }, [bool]);
-
+const Sidebar = ({ width, callBack, showBar }) => {
   return (
     <div
-      className={`ease-linear duration-200 ${
-        STYLES.background.bg_primary
-      } shadow-[0_4px_6px_-1px_rgb(0,0,0,0.2),0_2px_4px_-6px_rgb(0,0,0,0.2)] h-full ${
-        showBar ? STYLES.width.sidebar_lg : STYLES.width.sidebar_sm
-      } fixed z-10`}
+      className={`ease-linear duration-200 ${STYLES.background.bg_primary} shadow-[0_4px_6px_-1px_rgb(0,0,0,0.2),0_2px_4px_-6px_rgb(0,0,0,0.2)] h-full ${width} fixed z-10`}
     >
       {showBar ? (
         <>
@@ -28,7 +17,7 @@ const Sidebar = () => {
             icon={<AiOutlineLeft />}
             big
             className={'border-y-2'}
-            onClick={() => setShowBar(!showBar)}
+            onClick={callBack}
           >
             MENU
           </MenuItem>
@@ -41,7 +30,7 @@ const Sidebar = () => {
               icon={<FaUserEdit />}
               big
               className="border-b-2"
-              to="/detail"
+              to="/user"
             >
               Tài khoản
             </MenuItem>
@@ -62,21 +51,17 @@ const Sidebar = () => {
             icon={<AiOutlineRight />}
             big
             className={'border-y-2'}
-            onClick={() => setShowBar(!showBar)}
+            onClick={callBack}
           ></MenuItem>
 
           <MenuItem icon={<FaHome />} big to="/"></MenuItem>
           <MenuItem
             icon={<FaUserEdit />}
             big
-            to="/detail"
+            to="/user"
             className="border-b-2"
           ></MenuItem>
-          <MenuItem
-            icon={<BiFilterAlt />}
-            big
-            onClick={bool ? () => {} : () => setShowBar(!showBar)}
-          ></MenuItem>
+          <MenuItem icon={<BiFilterAlt />} big onClick={callBack}></MenuItem>
           <div className="absolute bottom-20  w-full">
             <MenuItem icon={<HiOutlineLogout />} big></MenuItem>
           </div>

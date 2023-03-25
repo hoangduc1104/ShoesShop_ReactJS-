@@ -46,10 +46,16 @@ function Button({
       <Comp
         className={`px-5 py-3 flex my-auto ${STYLES.text.text_white} text-lg font-semibold ${className}`}
         type={type}
+        {...props}
       >
-        {leftIcon && <span className="icon my-auto text-2xl">{leftIcon}</span>}
+        {leftIcon && (
+          <>
+            <span className="icon my-auto text-2xl">{leftIcon}</span>
+            <span className="w-3"></span>
+          </>
+        )}
         {children && (
-          <span className="title ml-3 my-auto leading-4">{children}</span>
+          <span className="title my-auto leading-4">{children}</span>
         )}
       </Comp>
     </div>

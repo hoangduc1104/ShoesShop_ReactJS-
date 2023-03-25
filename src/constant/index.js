@@ -4,6 +4,8 @@ export const STYLES = {
     sidebar_sm: 'w-14',
     container_left_lg: 'left-60',
     container_left_sm: 'left-14',
+    ml_lg: 'ml-60',
+    ml_sm: 'ml-14',
   },
   background: {
     bg_primary: 'bg-[#ffffff]',

@@ -44,9 +44,7 @@ function MenuItem({
           <span
             className={`block ${
               big ? 'text-xl' : 'text-base'
-            } font-lg pl-2 py-2 hover:bg- dark:hover:bg-gray-600 dark:hover:${
-              STYLES.text.text_orange
-            }`}
+            } font-lg pl-2 py-2 hover:${STYLES.text.text_orange}`}
           >
             {children}
           </span>
@@ -62,9 +60,7 @@ function MenuItem({
           <span
             className={`block ${
               big ? 'text-xl' : 'text-base'
-            } font-lg pl-2 py-2 hover:bg- dark:hover:bg-gray-600 dark:hover:${
-              STYLES.text.text_orange
-            }`}
+            } font-lg pl-2 py-2 hover:${STYLES.text.text_orange}`}
           >
             {children}
           </span>

@@ -86,11 +86,7 @@ const Header = () => {
               </div>
             ) : (
               <div className="flex ml-10 text-xl font-semibold my-auto cursor-pointer">
-                <Button
-                  leftIcon={<BiLogIn />}
-                  rouded
-                  onClick={() => setAuthor(!author)}
-                >
+                <Button leftIcon={<BiLogIn />} rouded to="/login">
                   Đăng Nhập
                 </Button>
               </div>

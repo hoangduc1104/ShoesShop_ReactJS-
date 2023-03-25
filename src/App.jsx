@@ -8,14 +8,16 @@ import Layout from './pages/layout';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />}></Route>
+    <div className="App">
+      <Routes>
+        <Route path="/login" element={<LoginPage />}></Route>
 
-      <Route element={<Layout />}>
-        <Route path={'/'} element={<HomePage />}></Route>
-        <Route path={'/detail'} element={<ExplorePage />}></Route>
-      </Route>
-    </Routes>
+        <Route element={<Layout />}>
+          <Route path={'/'} element={<HomePage />}></Route>
+          <Route path={'/user'} element={<ExplorePage />}></Route>
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
