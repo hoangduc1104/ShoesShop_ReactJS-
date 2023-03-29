@@ -3,16 +3,18 @@ import { BsCartPlus } from 'react-icons/bs';
 import { STYLES } from '../../constant';
 import img1 from '../../p1.jpg';
 import img2 from '../../p2.webp';
+import img3 from '../../p3.jpg';
 import Button from '../Button';
 
 function ProductCard(props) {
   return (
     <>
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
-        <a href="#" className="border-b-2 border-orange-100">
+        <a href="#" className="border-b-2 border-orange-100 relative">
+          <div className="mt-full"></div>
           <img
-            className="rounded-t-lg border-b-2 border-orange-100"
-            src={img1}
+            className="rounded-t-lg aspect-square right-0 border-b-2 border-orange-100"
+            src={img3}
             alt=""
           />
         </a>

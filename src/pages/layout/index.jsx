@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { STYLES } from '../../constant';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
+import Cart from '../cart';
 import Footer from './footer';
 import Header from './header';
 import Sidebar from './sidebar';
