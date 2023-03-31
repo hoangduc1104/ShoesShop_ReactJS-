@@ -9,9 +9,11 @@ function Button({
   primary = false,
   disabled = false,
   text = false,
+  small,
   rouded,
   children,
   className,
+  classNameOutline,
   leftIcon,
   onClick,
   ...passProps
@@ -35,30 +37,26 @@ function Button({
   }
 
   return (
-    <div
-      className={`${
-        STYLES.button.primary
-      } hover:opacity-80 w-max h-full max-h-12 overflow-hidden ${
-        rouded && 'rounded-md'
-      }`}
+    <Comp
+      className={`
+        flex items-center justify-center ${
+          rouded ? 'rounded-md' : ''
+        } border border-transparent bg-orange-600 ${
+        small ? 'px-3 py-1' : 'px-6 py-3'
+      } text-base font-medium text-white shadow-sm hover:opacity-80 ${
+        STYLES.text.text_white
+      } ${className}`}
+      type={type}
       {...props}
     >
-      <Comp
-        className={`px-5 py-3 flex my-auto ${STYLES.text.text_white} text-lg font-semibold ${className}`}
-        type={type}
-        {...props}
-      >
-        {leftIcon && (
-          <>
-            <span className="icon my-auto text-2xl">{leftIcon}</span>
-            <span className="w-3"></span>
-          </>
-        )}
-        {children && (
-          <span className="title my-auto leading-4">{children}</span>
-        )}
-      </Comp>
-    </div>
+      {leftIcon && (
+        <>
+          <span className="icon my-auto text-2xl">{leftIcon}</span>
+          <span className="w-3"></span>
+        </>
+      )}
+      {children}
+    </Comp>
   );
 }
 

@@ -266,7 +266,7 @@ const Detail = () => {
               <div className="mt-0 mb-20 flex">
                 <Button rouded>Mua</Button>
                 <div className="ml-10">
-                  <Button rouded className="bg-blue-600">
+                  <Button rouded className="bg-cyan-600">
                     Thêm vào giỏ
                   </Button>
                 </div>

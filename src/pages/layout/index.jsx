@@ -37,7 +37,7 @@ const Layout = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto">
-      <div className="bg-red fixed w-full max-w-screen-2xl z-30">
+      <div className="bg-red fixed w-full z-30 max-w-screen-2xl">
         <Header />
       </div>
       <div className="flex relative top-20 w-full">

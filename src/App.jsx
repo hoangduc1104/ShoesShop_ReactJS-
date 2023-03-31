@@ -3,9 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 
 import LoginPage from './pages/login';
 import HomePage from './pages/home';
-import ExplorePage from './pages/explore';
 import Layout from './pages/layout';
 import Detail from './pages/detail';
+import UserPage from './pages/user';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
 
         <Route element={<Layout />}>
           <Route path={'/'} element={<HomePage />}></Route>
-          <Route path={'/user'} element={<ExplorePage />}></Route>
+          <Route path={'/user'} element={<UserPage />}></Route>
           <Route path={'/detail'} element={<Detail />}></Route>
         </Route>
       </Routes>

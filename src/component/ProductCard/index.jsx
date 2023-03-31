@@ -9,7 +9,7 @@ import Button from '../Button';
 function ProductCard(props) {
   return (
     <>
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
+      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:shadow-xl">
         <a href="#" className="border-b-2 border-orange-100 relative">
           <div className="mt-full"></div>
           <img
