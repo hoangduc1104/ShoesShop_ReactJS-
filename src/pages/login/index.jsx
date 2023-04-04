@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../component/Button';
 import { STYLES } from '../../constant';
 import logo from '../../logo.png';
+import { setIsValidToken, setToken } from '../../helper/auth';
+import AuthService from '../../service/auth';
+import { Field, Form, Formik } from 'formik';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const [username, setUsername] = useState('');
+
+  const handleSubmit = async (values) => {
+    const data = {
+      email: values.email,
+      password: values.password,
+    };
+
+    const response = await AuthService.login(data);
+    setToken(response.token);
+    setIsValidToken(true);
+    navigate('/', { replace: true });
+  };
+
   return (
     <>
       <section className={`bg-white dark:bg-gray-900 text-left`}>
@@ -30,56 +48,68 @@ const LoginPage = () => {
               >
                 <AiOutlineClose className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
               </span>
-              <form className="space-y-4 md:space-y-6" action="#">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
-                    placeholder="email"
-                    required
-                    autoFocus
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Mật khẩu
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
-                    required
-                  />
-                </div>
-                <div className="flex item-center justify-center">
-                  <Button type="submit" rouded className="px-12">
-                    Đăng nhập
-                  </Button>
-                </div>
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                onSubmit={handleSubmit}
+              >
+                {({ errors, touched, values, setFieldValue, handleChange }) => (
+                  <Form className="space-y-4 md:space-y-6" action="#">
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Email
+                      </label>
+                      <Field
+                        type="email"
+                        name="email"
+                        id="email"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
+                        placeholder="email"
+                        required
+                        autoFocus
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="password"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Mật khẩu
+                      </label>
+                      <Field
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="••••••••"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                        required
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex item-center justify-center">
+                      <Button type="submit" rouded className="px-12">
+                        Đăng nhập
+                      </Button>
+                    </div>
 
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Chưa có tài khoản?{' '}
-                  <a
-                    href="#"
-                    className={`${STYLES.text.text_orange} font-lg  hover:underline dark:text-primary-500`}
-                  >
-                    Đăng ký
-                  </a>
-                </p>
-              </form>
+                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                      Chưa có tài khoản?{' '}
+                      <a
+                        href="#"
+                        className={`${STYLES.text.text_orange} font-lg  hover:underline dark:text-primary-500`}
+                      >
+                        Đăng ký
+                      </a>
+                    </p>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
