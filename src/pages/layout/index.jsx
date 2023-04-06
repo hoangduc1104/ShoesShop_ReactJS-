@@ -6,9 +6,12 @@ import Cart from '../cart';
 import Footer from './footer';
 import Header from './header';
 import Sidebar from './sidebar';
+import { useAuth } from '../../Store';
 
 const Layout = () => {
   const { height, width } = useWindowDimensions();
+  const { me } = useAuth();
+
   useEffect(() => {
     if (width < 1025) localStorage.setItem('isShow_sidebar', false);
     else localStorage.setItem('isShow_sidebar', true);

@@ -1,4 +1,8 @@
 import cookies from 'js-cookie';
+import { useState } from 'react';
+import AuthService from '../service/auth';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../Store';
 
 export function setToken(token) {
   cookies.set('token', token);
@@ -32,3 +36,10 @@ export function getUser() {
   }
   return '';
 }
+
+// const handleLogout = () => {
+//   cookies.remove('token');
+//   cookies.remove('isValid');
+//   cookies.remove('user');
+//   navigate('/', { replace: true });
+// };

@@ -4,25 +4,31 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../component/Button';
 import { STYLES } from '../../constant';
 import logo from '../../logo.png';
-import { setIsValidToken, setToken } from '../../helper/auth';
+import { getUser, setIsValidToken, setToken, setUser } from '../../helper/auth';
 import AuthService from '../../service/auth';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, replace } from 'formik';
+import { actions, useAuth } from '../../Store';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [state, dispatch] = useAuth();
 
-  const [username, setUsername] = useState('');
+  const handleLogin = async (data) => {
+    const tokenResponse = await AuthService.login(data);
+    setToken(tokenResponse.token);
+    setIsValidToken(true);
+    const userReponse = await AuthService.getMe(data, tokenResponse.token);
+    setUser(userReponse);
+    dispatch(actions.getMeTodo(getUser() || null));
+    navigate('/', { replace: true });
+  };
 
   const handleSubmit = async (values) => {
     const data = {
       email: values.email,
       password: values.password,
     };
-
-    const response = await AuthService.login(data);
-    setToken(response.token);
-    setIsValidToken(true);
-    navigate('/', { replace: true });
+    await handleLogin(data);
   };
 
   return (

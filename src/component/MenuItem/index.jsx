@@ -30,8 +30,8 @@ function MenuItem({
 
   const navLinkClass = ({ isActive }) => {
     return isActive
-      ? `${STYLES.text.text_orange} text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 ${className}`
-      : `${STYLES.text.text_secondary} text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 ${className}`;
+      ? `${STYLES.text.text_orange} text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 cursor-pointer ${className}`
+      : `${STYLES.text.text_secondary} text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 cursor-pointer ${className}`;
   };
 
   return (
@@ -51,7 +51,7 @@ function MenuItem({
         </Comp>
       ) : (
         <Comp
-          className={` text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 ${className}`}
+          className={` text-sm flex hover:text-orange-600 hover:bg-orange-100 pl-3 cursor-pointer ${className}`}
           {...props}
         >
           <span className={`my-auto py-2 ${big ? 'text-3xl' : 'text-2xl'}`}>

@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DropdownComponent from '../../../../component/Dropdown';
-import avatar from '../../../../ava.png';
 import MenuItem from '../../../../component/MenuItem';
 import { HiOutlineLogout } from 'react-icons/hi';
 import { STYLES } from '../../../../constant';
 import { FaUserEdit } from 'react-icons/fa';
 import Button from '../../../../component/Button';
 import { BiLogIn } from 'react-icons/bi';
+import { actions, useAuth } from '../../../../Store';
+import cookies from 'js-cookie';
+import { getUser, setUser } from '../../../../helper/auth';
 
 function Author(props) {
-  const [author, setAuthor] = useState(true);
   const [openMenu, setOpenMenu] = useState(false);
+  const [state, dispatch] = useAuth();
+  const { me, isLoading } = state;
+
+  const handleLogout = () => {
+    dispatch(actions.loadingTodo(true));
+    setUser(null);
+    dispatch(actions.getMeTodo(getUser()));
+    cookies.remove('token');
+    dispatch(actions.loadingTodo(false));
+  };
+
+  useEffect(() => {}, [me]);
   return (
     <>
-      {author ? (
+      {me ? (
         <div className="group my-auto relative">
           <div
             onClick={() => setOpenMenu(!openMenu)}
             className={`account flex ml-10 text-xl font-semibold my-auto cursor-pointer hover:text-${STYLES.color.primary}`}
           >
-            <img src={avatar} alt="" className="w-10 h-10 rounded-full" />
+            <img src={me.image} alt="" className="w-10 h-10 rounded-full" />
             <span
               className={` my-auto ml-2`}
               data-dropdown-toggle="dropdown"
               id="dropdownDefaultButton"
             >
-              Hoang Duc
+              {me.username}
             </span>
           </div>
           <div
@@ -38,7 +51,7 @@ function Author(props) {
               footerChild={
                 <MenuItem
                   icon={<HiOutlineLogout />}
-                  onClick={() => setAuthor(!author)}
+                  onClick={() => handleLogout()}
                 >
                   {' '}
                   Đăng xuất

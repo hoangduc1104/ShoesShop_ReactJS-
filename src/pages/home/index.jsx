@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductCard from '../../component/ProductCard';
 import { STYLES } from '../../constant';
 import { useOutletContext } from 'react-router-dom';
 import CategoryItem from '../../component/CategoryItem';
+import { getUser } from '../../helper/auth';
 
 const HomePage = () => {
   const [showBar] = useOutletContext();
+  const [me, setMe] = useState();
+
+  useEffect(() => {
+    setMe(getUser());
+  }, []);
+
   return (
     <>
       <div className="mb-14">
