@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import img from '../../p3.jpg';
 import img2 from '../../p2.webp';
 import img3 from '../../p1.jpg';
@@ -7,14 +8,25 @@ import { STYLES } from '../../constant';
 import { useEffect } from 'react';
 import Button from '../../component/Button';
 import { useOutletContext } from 'react-router-dom';
+import ProductService from '../../service/product';
 
 const Detail = () => {
+  const location = useLocation();
   const [showBar] = useOutletContext();
-
   const [colorValue, setColorValue] = useState(null);
+  const [data, setData] = useState({});
   const [price, setPrice] = useState(22);
   const [sizeValue, setSizeValue] = useState(null);
   const [quantityValue, setQuantityValue] = useState(1);
+
+  const getData = async () => {
+    const reponse = await ProductService.getById(location.state?.id);
+    setData(reponse);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   function handleChooseMode(listID, labelId, currentClass) {
     var header = document.getElementById(listID);
@@ -55,11 +67,7 @@ const Detail = () => {
             } lg:col-span-2 lg:h-1/2 h-[300px]`}
           >
             <Carousel className="h-[300px]">
-              <img src={img} alt="..." />
-              <img src={img2} alt="..." />
-              <img src={img3} alt="..." />
-              <img src={img} alt="..." />
-              <img src={img2} alt="..." />
+              <img src={data.avatar} alt="..." />
             </Carousel>
           </div>
           <div
@@ -71,7 +79,7 @@ const Detail = () => {
               <span className={`${STYLES.text.text_secondary} text-lg`}>
                 Tên sản phẩm:{' '}
               </span>
-              <h3 className="text-xl font-bold ml-2">Layer Chunky Sneaker</h3>
+              <h3 className="text-xl font-bold ml-2">{data.name}</h3>
             </div>
             <div className="flex mt-4">
               <span className={`${STYLES.text.text_secondary} text-lg`}>
@@ -80,7 +88,7 @@ const Detail = () => {
               <h3
                 className={`${STYLES.text.text_orange} text-xl font-bold ml-2`}
               >
-                ${price}
+                ${data.price}
               </h3>
             </div>
             <div className="mt-4">
@@ -90,9 +98,7 @@ const Detail = () => {
               <h3
                 className={`${STYLES.text.text_secondary} text-base my-auto  ml`}
               >
-                Giày Cổ Cao Hoạt Hình Trái Tim Thiếu Nữ Giày Trắng Ngầu Sành
-                Điệu Mẫu Mới Mùa Xuân 2022 Cho Nữ Giày Đế Bằng Thể Thao Học Sinh
-                Đáng Yêu
+                {data.description}
               </h3>
             </div>
 

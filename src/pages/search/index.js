@@ -7,9 +7,11 @@ import { getUser } from '../../helper/auth';
 import CategoryService from '../../service/category';
 import ProductService from '../../service/product';
 import { productActions, useProducts } from '../../Store';
+import { getProductResult, setProductResult } from '../../helper/product';
 
-const HomePage = () => {
+const SearchPage = () => {
   const [state, dispatch] = useProducts();
+  const location = useLocation();
 
   const [showBar] = useOutletContext();
   const [me, setMe] = useState();
@@ -20,7 +22,8 @@ const HomePage = () => {
     const data = {
       page: 1,
     };
-    const productResponse = await ProductService.getAll(data);
+    const productResponse =
+      location.state?.result || (await ProductService.getAll(data));
     dispatch(productActions.getAllProduct(productResponse));
     setCategories(categoryResponse);
   };
@@ -29,7 +32,7 @@ const HomePage = () => {
     getall();
   }, []);
 
-  useEffect(() => {}, [state.productsData]);
+  useEffect(() => {}, [state.searchResult]);
 
   useEffect(() => {
     setMe(getUser());
@@ -67,7 +70,7 @@ const HomePage = () => {
                 : 'md:grid-cols-4 lg:grid-cols-5'
             }  xl:grid-cols-5`}
         >
-          {state.productsData?.map((product) => (
+          {state.searchResult?.map((product) => (
             <div key={product._id}>
               <ProductCard data={product} />
             </div>
@@ -78,4 +81,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default SearchPage;

@@ -5,6 +5,7 @@ import { STYLES } from '../../../constant';
 import Search from './search';
 import Author from './author';
 import Cart from '../../cart';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [openCart, setOpenCart] = useState(false);
@@ -13,7 +14,9 @@ const Header = () => {
     <div className={`${STYLES.background.bg_primary} h-20 shadow-md`}>
       <div className=" my-auto w-full">
         <div className="h-20 flex my-auto absolute top-1/2 -translate-y-1/2 justify-between px-10 w-full">
-          <img src={logo} alt="" className="h-20 cursor-pointer" />
+          <Link to={'/'}>
+            <img src={logo} alt="" className="h-20 cursor-pointer" />
+          </Link>
           <Search />
           <div className="action flex">
             <div

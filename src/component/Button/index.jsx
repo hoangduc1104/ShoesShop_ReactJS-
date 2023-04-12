@@ -16,11 +16,13 @@ function Button({
   classNameOutline,
   leftIcon,
   onClick,
+  onMouseDown,
   ...passProps
 }) {
   let Comp = 'button';
   const props = {
     onClick,
+    onMouseDown,
     ...passProps,
   };
 
