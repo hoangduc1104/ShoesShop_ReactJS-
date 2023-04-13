@@ -2,9 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
 import { STYLES } from '../../constant';
-import img1 from '../../p1.jpg';
-import img2 from '../../p2.webp';
-import img3 from '../../p3.jpg';
 import Button from '../Button';
 
 function ProductCard({ data, props }) {
@@ -13,7 +10,9 @@ function ProductCard({ data, props }) {
     <>
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:shadow-xl">
         <Button
-          onClick={() => navigate('detail', { state: { id: data._id } })}
+          onClick={() =>
+            navigate(`/detail/${data._id}`, { state: { id: data._id } })
+          }
           className="border-b-2 border-orange-100 relative bg-white"
         >
           <div className="mt-full"></div>

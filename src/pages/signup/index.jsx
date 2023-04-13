@@ -9,7 +9,7 @@ import AuthService from '../../service/auth';
 import { Field, Form, Formik, replace } from 'formik';
 import { actions, useAuth } from '../../Store';
 
-const LoginPage = () => {
+const SignupPage = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useAuth();
 
@@ -65,6 +65,24 @@ const LoginPage = () => {
                   <Form className="space-y-4 md:space-y-6" action="#">
                     <div>
                       <label
+                        htmlFor="name"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Họ tên
+                      </label>
+                      <Field
+                        type="text"
+                        name="name"
+                        id="name"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
+                        placeholder="Họ tên"
+                        required
+                        autoFocus
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label
                         htmlFor="email"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
@@ -77,7 +95,40 @@ const LoginPage = () => {
                         className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
                         placeholder="email"
                         required
-                        autoFocus
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="Phone"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Số điện thoại
+                      </label>
+                      <Field
+                        type="number"
+                        name="text"
+                        id="phone"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
+                        placeholder="SĐT"
+                        required
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="address"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Địa chỉ
+                      </label>
+                      <Field
+                        type="text"
+                        name="address"
+                        id="address"
+                        className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
+                        placeholder="Địa chỉ"
+                        required
                         onChange={handleChange}
                       />
                     </div>
@@ -98,19 +149,36 @@ const LoginPage = () => {
                         onChange={handleChange}
                       />
                     </div>
+                    <div>
+                      <label
+                        htmlFor="password_confirm"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Nhập lại mật khẩu
+                      </label>
+                      <Field
+                        type="password"
+                        name="password_confirm"
+                        id="password_confirm"
+                        placeholder="••••••••"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                        required
+                        onChange={handleChange}
+                      />
+                    </div>
                     <div className="flex item-center justify-center">
                       <Button type="submit" rouded className="px-12">
-                        Đăng nhập
+                        Đăng ký
                       </Button>
                     </div>
 
                     <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                      Chưa có tài khoản?{' '}
+                      Đã có tài khoản?{' '}
                       <Link
-                        to={'/register'}
+                        to={'/login'}
                         className={`${STYLES.text.text_orange} font-lg  hover:underline dark:text-primary-500`}
                       >
-                        Đăng ký
+                        Đăng nhập
                       </Link>
                     </p>
                   </Form>
@@ -124,4 +192,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

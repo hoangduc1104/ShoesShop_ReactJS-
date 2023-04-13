@@ -7,18 +7,20 @@ import Layout from './pages/layout';
 import Detail from './pages/detail';
 import UserPage from './pages/user';
 import SearchPage from './pages/search';
+import SignupPage from './pages/signup';
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/register" element={<SignupPage />}></Route>
 
         <Route element={<Layout />}>
           <Route path={'/'} element={<HomePage />}></Route>
           <Route path={'/search'} element={<SearchPage />}></Route>
           <Route path={'/user'} element={<UserPage />}></Route>
-          <Route path={'/detail'} element={<Detail />}></Route>
+          <Route path={'/detail/:productId'} element={<Detail />}></Route>
         </Route>
       </Routes>
     </div>
