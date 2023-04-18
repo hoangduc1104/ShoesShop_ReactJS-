@@ -10,3 +10,10 @@ export { default as ProductContext } from './product/Context';
 export * from './product/hooks';
 
 export * as productActions from './product/action';
+
+//cart
+export { default as CartProvider } from './cart/Provider';
+export { default as CartContext } from './cart/Context';
+export * from './cart/hook';
+
+export * as cartActions from './cart/action';

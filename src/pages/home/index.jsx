@@ -6,10 +6,12 @@ import CategoryItem from '../../component/CategoryItem';
 import { getUser } from '../../helper/auth';
 import CategoryService from '../../service/category';
 import ProductService from '../../service/product';
-import { productActions, useProducts } from '../../Store';
+import { cartActions, productActions, useCart, useProducts } from '../../Store';
+import { getProductInCart } from '../../helper/cart';
 
 const HomePage = () => {
   const [state, dispatch] = useProducts();
+  const [cartState, cartDispatch] = useCart();
 
   const [showBar] = useOutletContext();
   const [me, setMe] = useState();
@@ -27,6 +29,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getall();
+    // cartState.cart ? console.log(cartState.cart.length) : console.log('abc');
   }, []);
 
   useEffect(() => {}, [state.productsData]);

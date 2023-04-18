@@ -6,13 +6,14 @@ import { STYLES } from '../../../../constant';
 import { FaUserEdit } from 'react-icons/fa';
 import Button from '../../../../component/Button';
 import { BiLogIn } from 'react-icons/bi';
-import { actions, useAuth } from '../../../../Store';
+import { actions, cartActions, useAuth, useCart } from '../../../../Store';
 import cookies from 'js-cookie';
 import { getUser, setUser } from '../../../../helper/auth';
 
 function Author(props) {
   const [openMenu, setOpenMenu] = useState(false);
   const [state, dispatch] = useAuth();
+  const [cartState, cartDispatch] = useCart();
   const { me, isLoading } = state;
 
   const handleLogout = () => {
@@ -21,6 +22,7 @@ function Author(props) {
     dispatch(actions.getMeTodo(getUser()));
     cookies.remove('token');
     dispatch(actions.loadingTodo(false));
+    cartDispatch(cartActions.setCart(null));
   };
 
   useEffect(() => {}, [me]);

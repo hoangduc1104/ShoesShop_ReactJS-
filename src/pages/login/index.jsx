@@ -7,19 +7,29 @@ import logo from '../../logo.png';
 import { getUser, setIsValidToken, setToken, setUser } from '../../helper/auth';
 import AuthService from '../../service/auth';
 import { Field, Form, Formik, replace } from 'formik';
-import { actions, useAuth } from '../../Store';
+import { actions, cartActions, useAuth, useCart } from '../../Store';
+import CartService from '../../service/cart';
+import { getProductInCart, setProductInCart } from '../../helper/cart';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useAuth();
+  const [cartState, cartDispatch] = useCart();
 
   const handleLogin = async (data) => {
     const tokenResponse = await AuthService.login(data);
     setToken(tokenResponse.token);
     setIsValidToken(true);
     const userReponse = await AuthService.getMe(data, tokenResponse.token);
+    // console.log(userReponse);
     setUser(userReponse);
     dispatch(actions.getMeTodo(getUser() || null));
+    const cartReponse = await CartService.getAllByUserId(
+      userReponse._id,
+      tokenResponse.token
+    );
+    setProductInCart(cartReponse);
+    cartDispatch(cartActions.setCart(getProductInCart()));
     navigate('/', { replace: true });
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../../logo.png';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { STYLES } from '../../../constant';
@@ -6,9 +6,15 @@ import Search from './search';
 import Author from './author';
 import Cart from '../../cart';
 import { Link } from 'react-router-dom';
+import { cartActions, useCart } from '../../../Store';
+import { getToken, getUser } from '../../../helper/auth';
+import CartService from '../../../service/cart';
 
 const Header = () => {
   const [openCart, setOpenCart] = useState(false);
+  const [cartState, cartDispatch] = useCart();
+
+  useEffect(() => {}, [cartState.cart]);
 
   return (
     <div className={`${STYLES.background.bg_primary} h-20 shadow-md`}>
@@ -25,7 +31,9 @@ const Header = () => {
               <div
                 className={`text-xs text-white absolute -right-2 -top-1 bg-${STYLES.color.primary} rounded-full overflow-hidden`}
               >
-                <span className="px-2 py-0">0</span>
+                <span className="px-2 py-0">
+                  {cartState.cart ? cartState?.cart[0]?.products.length : 0}
+                </span>
               </div>
               <AiOutlineShoppingCart onClick={() => setOpenCart(true)} />
               <Cart openCart={openCart} callBack={() => setOpenCart(false)} />

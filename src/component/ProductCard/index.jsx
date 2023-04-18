@@ -37,7 +37,10 @@ function ProductCard({ data, props }) {
             <span
               className={`text-xl font-bold text-gray-900 ${STYLES.text.text_orange}`}
             >
-              {data.price}
+              {data.price.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'VND',
+              })}
             </span>
             <span
               className={`text-2xl p-3 rounded-full hover:bg-orange-100 hover:cursor-pointer hover:${STYLES.text.text_orange}`}

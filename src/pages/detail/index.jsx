@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import img from '../../p3.jpg';
 import img2 from '../../p2.webp';
 import img3 from '../../p1.jpg';
@@ -9,15 +9,23 @@ import { useEffect } from 'react';
 import Button from '../../component/Button';
 import { useOutletContext } from 'react-router-dom';
 import ProductService from '../../service/product';
+import CartService from '../../service/cart';
+import { getToken, getUser } from '../../helper/auth';
+import { cartActions, useCart } from '../../Store';
+import { setProductInCart } from '../../helper/cart';
 
 const Detail = () => {
+  const [cartState, cartDispatch] = useCart();
+
   const location = useLocation();
+  const navigate = useNavigate();
   const [showBar] = useOutletContext();
   const [colorValue, setColorValue] = useState(null);
   const [data, setData] = useState({});
   const [price, setPrice] = useState(22);
   const [sizeValue, setSizeValue] = useState(null);
   const [quantityValue, setQuantityValue] = useState(1);
+  const [loadding, setLoadding] = useState(false);
 
   const getData = async () => {
     const reponse = await ProductService.getById(location.state?.id);
@@ -46,6 +54,35 @@ const Detail = () => {
       });
     }
   }
+
+  const handleAddToCart = async () => {
+    const datas = {
+      product: data._id,
+      quantity: quantityValue,
+      color: colorValue,
+      size: sizeValue,
+    };
+    setLoadding(true);
+    const reponse = await CartService.addtocart(
+      getUser()._id,
+      datas,
+      getToken()
+    );
+    setLoadding(false);
+  };
+
+  const handleReLoad = async () => {
+    const cartReponse = await CartService.getAllByUserId(
+      getUser()._id,
+      getToken()
+    );
+    cartDispatch(cartActions.setCart(cartReponse));
+    setProductInCart(cartReponse);
+  };
+
+  useEffect(() => {
+    handleReLoad();
+  }, [loadding]);
 
   useEffect(() => {
     handleChooseMode('list-product-color', 'label', 'product-color-item');
@@ -272,7 +309,11 @@ const Detail = () => {
               <div className="mt-0 mb-20 flex">
                 <Button rouded>Mua</Button>
                 <div className="ml-10">
-                  <Button rouded className="bg-cyan-600">
+                  <Button
+                    rouded
+                    className="bg-cyan-600"
+                    onClick={() => handleAddToCart()}
+                  >
                     Thêm vào giỏ
                   </Button>
                 </div>
