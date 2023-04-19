@@ -17,12 +17,12 @@ function reducer(state, action) {
     case SETLOADDING:
       return {
         ...state,
-        cart: action.payload,
+        loadding: action.payload,
       };
     case SETOPENCART:
       return {
         ...state,
-        cart: action.payload,
+        openCart: action.payload,
       };
     default:
       throw new Error('INvalid Action');

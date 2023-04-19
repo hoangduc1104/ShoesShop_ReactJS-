@@ -6,6 +6,7 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import Button from '../../../component/Button';
 import MenuItem from '../../../component/MenuItem';
 import { STYLES } from '../../../constant';
+import { getUser } from '../../../helper/auth';
 
 const Sidebar = ({ width, callBack, showBar }) => {
   return (
@@ -27,14 +28,16 @@ const Sidebar = ({ width, callBack, showBar }) => {
             <MenuItem icon={<FaHome />} big to="/">
               Trang chủ
             </MenuItem>
-            <MenuItem
-              icon={<FaUserEdit />}
-              big
-              className="border-b-2"
-              to="/user"
-            >
-              Tài khoản
-            </MenuItem>
+            {getUser() && (
+              <MenuItem
+                icon={<FaUserEdit />}
+                big
+                className="border-b-2"
+                to="/user"
+              >
+                Tài khoản
+              </MenuItem>
+            )}
           </div>
 
           <div>
@@ -82,11 +85,11 @@ const Sidebar = ({ width, callBack, showBar }) => {
               </div>
             </form>
           </div>
-          <div className="absolute bottom-20  w-full">
+          {/* <div className="absolute bottom-20  w-full">
             <MenuItem icon={<HiOutlineLogout />} big>
               Đăng xuất
             </MenuItem>
-          </div>
+          </div> */}
         </>
       ) : (
         <>
@@ -98,16 +101,18 @@ const Sidebar = ({ width, callBack, showBar }) => {
           ></MenuItem>
 
           <MenuItem icon={<FaHome />} big to="/"></MenuItem>
-          <MenuItem
-            icon={<FaUserEdit />}
-            big
-            to="/user"
-            className="border-b-2"
-          ></MenuItem>
+          {getUser() && (
+            <MenuItem
+              icon={<FaUserEdit />}
+              big
+              to="/user"
+              className="border-b-2"
+            ></MenuItem>
+          )}
           <MenuItem icon={<BiFilterAlt />} big onClick={callBack}></MenuItem>
-          <div className="absolute bottom-20  w-full">
+          {/* <div className="absolute bottom-20  w-full">
             <MenuItem icon={<HiOutlineLogout />} big></MenuItem>
-          </div>
+          </div> */}
         </>
       )}
     </div>

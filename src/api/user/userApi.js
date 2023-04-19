@@ -7,8 +7,13 @@ const USER_API = {
     const response = await axiosClient.get(url);
     return response;
   },
-  getUser: async (id) => {
-    const url = `/user/${id}`;
+  getUserByEmail: async (email) => {
+    const url = `/user/${email}`;
+    const response = await axiosClient.get(url);
+    return response;
+  },
+  getUserByPhoneNumber: async (phone) => {
+    const url = `/user/phone/${phone}`;
     const response = await axiosClient.get(url);
     return response;
   },

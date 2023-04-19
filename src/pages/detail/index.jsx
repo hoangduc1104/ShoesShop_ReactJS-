@@ -26,6 +26,7 @@ const Detail = () => {
   const [sizeValue, setSizeValue] = useState(null);
   const [quantityValue, setQuantityValue] = useState(1);
   const [loadding, setLoadding] = useState(false);
+  const [errMessage, setErrMessage] = useState();
 
   const getData = async () => {
     const reponse = await ProductService.getById(location.state?.id);
@@ -56,6 +57,16 @@ const Detail = () => {
   }
 
   const handleAddToCart = async () => {
+    if (!colorValue) {
+      setErrMessage('Vui lòng chọn màu!');
+      return;
+    }
+
+    if (!sizeValue) {
+      setErrMessage('Vui lòng chọn size!');
+      return;
+    }
+    setErrMessage(null);
     const datas = {
       product: data._id,
       quantity: quantityValue,
@@ -69,15 +80,19 @@ const Detail = () => {
       getToken()
     );
     setLoadding(false);
+    cartDispatch(cartActions.setOpenCart(true));
   };
 
   const handleReLoad = async () => {
-    const cartReponse = await CartService.getAllByUserId(
-      getUser()._id,
-      getToken()
-    );
-    cartDispatch(cartActions.setCart(cartReponse));
-    setProductInCart(cartReponse);
+    if (getUser()) {
+      const cartReponse = await CartService.getAllByUserId(
+        getUser()._id,
+        getToken()
+      );
+      // console.log('set 1');
+      cartDispatch(cartActions.setCart(cartReponse));
+      setProductInCart(cartReponse);
+    }
   };
 
   useEffect(() => {
@@ -151,74 +166,25 @@ const Detail = () => {
             </div>
             <div className="list-color">
               <ul className="flex" id="list-product-color">
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="1">
-                    <img
-                      src={img}
-                      alt=""
-                      className="label product-color-item w-12 h-12 rounded hover:border-2 border-orange-600"
+                {data?.colors?.map((item, index) => (
+                  <li className="mr-3 cursor-pointer " key={index}>
+                    <label htmlFor={index}>
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="label product-color-item w-12 h-12 rounded hover:border-2 border-orange-600"
+                      />
+                    </label>
+                    <input
+                      className="hidden"
+                      type="radio"
+                      name="product-color"
+                      id={index}
+                      value={item.color}
+                      onChange={(e) => setColorValue(e.target.value)}
                     />
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="1"
-                    value="Trắng"
-                    onChange={(e) => setColorValue(e.target.value)}
-                  />
-                </li>
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="2">
-                    <img
-                      src={img}
-                      alt=""
-                      className="label product-color-item w-12 h-12 rounded hover:border-2 border-orange-600"
-                    />
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="2"
-                    value="Đen"
-                    onChange={(e) => setColorValue(e.target.value)}
-                  />
-                </li>
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="3">
-                    <img
-                      src={img}
-                      alt=""
-                      className="label product-color-item w-12 h-12 rounded hover:border-2 border-orange-600"
-                    />
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="3"
-                    value="Cam"
-                    onChange={(e) => setColorValue(e.target.value)}
-                  />
-                </li>
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="4">
-                    <img
-                      src={img}
-                      alt=""
-                      className="label product-color-item w-12 h-12 rounded hover:border-2 border-orange-600"
-                    />
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="4"
-                    value="Vàng"
-                    onChange={(e) => setColorValue(e.target.value)}
-                  />
-                </li>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -234,51 +200,23 @@ const Detail = () => {
             </div>
             <div className="list-size">
               <ul className="flex" id="list-product-size">
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="s1" className="bg-red flex">
-                    <p className="label product-size-item w-10 h-8 bg-[#e5e5e5] text-center leading-8 rounded font-medium text-lg">
-                      40
-                    </p>
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="s1"
-                    value="40"
-                    onChange={(e) => setSizeValue(e.target.value)}
-                  />
-                </li>
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="s2" className="bg-red flex">
-                    <p className="label product-size-item w-10 h-8 bg-[#e5e5e5] mx-auto my-auto text-center leading-8 rounded font-medium text-lg">
-                      41
-                    </p>
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="s2"
-                    value="41"
-                    onChange={(e) => setSizeValue(e.target.value)}
-                  />
-                </li>
-                <li className="mr-3 cursor-pointer ">
-                  <label htmlFor="s3" className="bg-red flex">
-                    <p className="label product-size-item w-10 h-8 bg-[#e5e5e5] mx-auto my-auto text-center leading-8 rounded font-medium text-lg">
-                      42
-                    </p>
-                  </label>
-                  <input
-                    className="hidden"
-                    type="radio"
-                    name="product-color"
-                    id="s3"
-                    value="42"
-                    onChange={(e) => setSizeValue(e.target.value)}
-                  />
-                </li>
+                {data?.size?.map((item, index) => (
+                  <li className="mr-3 cursor-pointer " key={index}>
+                    <label htmlFor={item + index} className="bg-red flex">
+                      <p className="label product-size-item w-10 h-8 bg-[#e5e5e5] text-center leading-8 rounded font-medium text-lg">
+                        {item}
+                      </p>
+                    </label>
+                    <input
+                      className="hidden"
+                      type="radio"
+                      name="product-color"
+                      id={item + index}
+                      value={item}
+                      onChange={(e) => setSizeValue(e.target.value)}
+                    />
+                  </li>
+                ))}
               </ul>
             </div>
             <div>
@@ -303,9 +241,17 @@ const Detail = () => {
                 <p
                   className={`${STYLES.text.text_orange} text-2xl font-bold ml-3 leading-6`}
                 >
-                  ${price * quantityValue}
+                  {(data.price * quantityValue).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'VND',
+                  })}
                 </p>
               </div>
+              {errMessage && (
+                <p className={`${STYLES.text.text_orange} mb-3`}>
+                  {errMessage}
+                </p>
+              )}
               <div className="mt-0 mb-20 flex">
                 <Button rouded>Mua</Button>
                 <div className="ml-10">

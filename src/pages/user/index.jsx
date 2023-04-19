@@ -1,15 +1,13 @@
-import { Carousel } from 'flowbite-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import Button from '../../component/Button';
-import img from '../../p3.jpg';
-import img2 from '../../p2.webp';
-import img3 from '../../p1.jpg';
 import avatar from '../../ava.png';
 import { STYLES } from '../../constant';
+import { getUser } from '../../helper/auth';
 
 const UserPage = () => {
   const [showBar] = useOutletContext();
+
   return (
     <>
       <div className="h-max min-h-screen">
@@ -30,7 +28,7 @@ const UserPage = () => {
             />
 
             <span className={`${STYLES.text.text_orange} font-medium text-xl`}>
-              Duc@123
+              {getUser().username}
             </span>
           </div>
           <div
@@ -46,7 +44,7 @@ const UserPage = () => {
               </span>
               <input
                 type="text"
-                value={'Hoàng Đức'}
+                value={getUser().username}
                 readOnly
                 className={`border-0 ${STYLES.background.bg_secondary} ${STYLES.text.text_orange} text-xl font-bold focus:ring-0 border-b-2 border-orange-600 py-0 focus:ring-offset-0 focus:shadow-none`}
               />
@@ -60,12 +58,10 @@ const UserPage = () => {
               <p
                 className={`border-0 ${STYLES.background.bg_secondary} ${STYLES.text.text_secondary} text-md font-medium py-0`}
               >
-                Quảng lợi - Quảng Điền - TT Huế Quảng lợi - Quảng Điền - TT
-                HuếQuảng lợi - Quảng Điền - TT HuếQuảng lợi - Quảng Điền - TT
-                Huế
+                {getUser().address}
               </p>
             </div>
-            <div className="flex pl-10 mt-5">
+            <div className="flex pl-10 mt-5 w-full">
               <span
                 className={`flex text-md font-medium mr-3 leading-5 items-center justify-center`}
               >
@@ -73,12 +69,12 @@ const UserPage = () => {
               </span>
               <input
                 type="text"
-                value={'hoangduc91nda@gmail.com'}
+                value={getUser().email}
                 readOnly
-                className={`border-0 ${STYLES.background.bg_secondary} ${STYLES.text.text_secondary} text-md font-medium focus:ring-0 py-0 focus:ring-offset-0 focus:shadow-none`}
+                className={`border-0 ${STYLES.background.bg_secondary} ${STYLES.text.text_secondary} text-md font-medium focus:ring-0 py-0 focus:ring-offset-0 focus:shadow-none w-full`}
               />
             </div>
-            <div className="flex pl-10 mt-5">
+            <div className="flex pl-10 mt-5 w-full">
               <span
                 className={`flex text-md font-medium mr-3 leading-5 items-center justify-center`}
               >
@@ -86,7 +82,7 @@ const UserPage = () => {
               </span>
               <input
                 type="text"
-                value={'0967444444'}
+                value={getUser().phone}
                 readOnly
                 className={`border-0 ${STYLES.background.bg_secondary} ${STYLES.text.text_secondary} text-md font-medium focus:ring-0 py-0 focus:ring-offset-0 focus:shadow-none`}
               />

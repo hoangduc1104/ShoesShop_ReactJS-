@@ -2,12 +2,12 @@ import React from 'react';
 import axiosClient from '../axiosClient';
 
 const AUTH_API = {
-  login: async (data) => {
-    const url = '/auth/login';
+  signup: async (data) => {
+    const url = '/auth/signup';
     const response = await axiosClient.post(url, data);
     return response;
   },
-  logout: async (data) => {
+  login: async (data) => {
     const url = '/auth/login';
     const response = await axiosClient.post(url, data);
     return response;

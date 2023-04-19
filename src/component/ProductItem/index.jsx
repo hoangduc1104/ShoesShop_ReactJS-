@@ -14,8 +14,6 @@ function ProductItem({ product, callback, ...props }) {
       product_id: product_id,
     };
     const token = getToken();
-    console.log(token);
-    console.log(data);
     setLoadding(true);
     const reponse = await CartService.deleteProductInCart(data, token);
     setLoadding(false);
@@ -26,6 +24,7 @@ function ProductItem({ product, callback, ...props }) {
       getUser()._id,
       getToken()
     );
+    // console.log('set3');
     cartDispatch(cartActions.setCart(cartReponse));
     setProductInCart(cartReponse);
   };

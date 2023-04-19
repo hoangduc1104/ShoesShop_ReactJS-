@@ -21,7 +21,6 @@ const LoginPage = () => {
     setToken(tokenResponse.token);
     setIsValidToken(true);
     const userReponse = await AuthService.getMe(data, tokenResponse.token);
-    // console.log(userReponse);
     setUser(userReponse);
     dispatch(actions.getMeTodo(getUser() || null));
     const cartReponse = await CartService.getAllByUserId(

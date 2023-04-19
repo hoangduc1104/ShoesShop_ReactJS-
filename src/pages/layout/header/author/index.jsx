@@ -9,12 +9,15 @@ import { BiLogIn } from 'react-icons/bi';
 import { actions, cartActions, useAuth, useCart } from '../../../../Store';
 import cookies from 'js-cookie';
 import { getUser, setUser } from '../../../../helper/auth';
+import { setProductInCart } from '../../../../helper/cart';
+import { useNavigate } from 'react-router-dom';
 
 function Author(props) {
   const [openMenu, setOpenMenu] = useState(false);
   const [state, dispatch] = useAuth();
   const [cartState, cartDispatch] = useCart();
   const { me, isLoading } = state;
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(actions.loadingTodo(true));
@@ -22,7 +25,10 @@ function Author(props) {
     dispatch(actions.getMeTodo(getUser()));
     cookies.remove('token');
     dispatch(actions.loadingTodo(false));
+    // console.log('set 2');
     cartDispatch(cartActions.setCart(null));
+    setProductInCart(null);
+    navigate('/');
   };
 
   useEffect(() => {}, [me]);

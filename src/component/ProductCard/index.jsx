@@ -25,7 +25,7 @@ function ProductCard({ data, props }) {
         <div className="p-5">
           <Button
             onClick={() => navigate('detail', { state: { id: data._id } })}
-            className=" bg-white"
+            className=" bg-white pl-0 pr-0"
           >
             <h5
               className={`h-12 pl-auto line-clamp-2 text-left text-base font-bold tracking-tight text-gray-900 hover:${STYLES.text.text_orange} hover:decoration-1 hover:decoration-underline hover:decoration-orange-600`}
@@ -44,6 +44,9 @@ function ProductCard({ data, props }) {
             </span>
             <span
               className={`text-2xl p-3 rounded-full hover:bg-orange-100 hover:cursor-pointer hover:${STYLES.text.text_orange}`}
+              onClick={() =>
+                navigate(`/detail/${data._id}`, { state: { id: data._id } })
+              }
             >
               <BsCartPlus />
             </span>

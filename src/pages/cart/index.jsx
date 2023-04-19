@@ -5,24 +5,27 @@ import Button from '../../component/Button';
 import { Link } from 'react-router-dom';
 import ProductItem from '../../component/ProductItem';
 import { cartActions, useCart } from '../../Store';
-import { getToken, getUser } from '../../helper/auth';
-import CartService from '../../service/cart';
-import { setProductInCart } from '../../helper/cart';
 
 export default function Cart({ openCart, callBack }) {
   const [cartState, cartDispatch] = useCart();
-  const [loadding, setLoadding] = useState(false);
 
-  const total = cartState?.cart[0].products
-    .reduce(
-      (total, product) => total + product.product.price * product.quantity,
-      0
-    )
-    .toLocaleString('en-US', { style: 'currency', currency: 'VND' });
+  var total;
+  if (cartState.cart) {
+    total = cartState?.cart[0].products
+      .reduce(
+        (total, product) => total + product.product.price * product.quantity,
+        0
+      )
+      .toLocaleString('en-US', { style: 'currency', currency: 'VND' });
+  }
 
   return (
-    <Transition.Root show={openCart} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={callBack}>
+    <Transition.Root show={cartState.openCart} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => cartDispatch(cartActions.setOpenCart(false))}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -58,7 +61,9 @@ export default function Cart({ openCart, callBack }) {
                           <button
                             type="button"
                             className="-m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={callBack}
+                            onClick={() =>
+                              cartDispatch(cartActions.setOpenCart(false))
+                            }
                           >
                             <span className="sr-only">Close panel</span>
                             <AiOutlineClose
@@ -110,7 +115,9 @@ export default function Cart({ openCart, callBack }) {
                           <Link
                             to="/"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={callBack}
+                            onClick={() =>
+                              cartDispatch(cartActions.setOpenCart(false))
+                            }
                           >
                             Tiếp tục mua sắm
                             <span aria-hidden="true"> &rarr;</span>
