@@ -7,8 +7,31 @@ import Button from '../../../component/Button';
 import MenuItem from '../../../component/MenuItem';
 import { STYLES } from '../../../constant';
 import { getUser } from '../../../helper/auth';
+import { useRef } from 'react';
+import { Field, Form, Formik } from 'formik';
+import ProductService from '../../../service/product';
+import { actions, productActions, useProducts } from '../../../Store';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ width, callBack, showBar }) => {
+  const [state, dispatch] = useProducts();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    dispatch(productActions.searchReload(true));
+    const response = await ProductService.getAll({
+      page: 1,
+      max: values.max,
+      min: values.min,
+      // keyword: debounce,
+    });
+    dispatch(productActions.searchReload(false));
+
+    dispatch(productActions.searchResult(response));
+    navigate(`/search`, { state: { max: values.max, min: values.min } });
+  };
+
   return (
     <div
       className={`ease-linear duration-200 ${STYLES.background.bg_primary} shadow-[0_4px_6px_-1px_rgb(0,0,0,0.2),0_2px_4px_-6px_rgb(0,0,0,0.2)] h-full ${width} fixed z-10`}
@@ -44,46 +67,68 @@ const Sidebar = ({ width, callBack, showBar }) => {
             <MenuItem icon={<BiFilterAlt />} big>
               Lọc
             </MenuItem>
-            <form>
-              <div className="flex leading-3 ">
-                <span className="text-base flex ml-3 left my-auto">
-                  Tối thiểu:{' '}
-                </span>
-                <input
-                  type="number"
-                  className="w-28 ml-2 h-8 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
-                />
-                <p className={`ml-2 ${STYLES.text.text_orange}`}>đ</p>
-              </div>
-              <div className="flex leading-3  mt-4">
-                <span className="text-base flex ml-3 left my-auto">
-                  Tối đa:{' '}
-                </span>
-                <input
-                  type="number"
-                  className="w-28 ml-6 h-8 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
-                />
-                <p className={`ml-2 ${STYLES.text.text_orange}`}>đ</p>
-              </div>
-              <div className="flex leading-3  mt-4">
-                <span className="text-base flex ml-3 left my-auto">
-                  Sắp xếp:{' '}
-                </span>
-                <select
-                  name=""
-                  id=""
-                  className="w-32 ml-3 h-10 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
-                >
-                  <option value="-1">Thấp - cao</option>
-                  <option value="1">Cao - thấp</option>
-                </select>
-              </div>
-              <div className="flex justify-end mr-8">
-                <Button className="mt-4 px-2 py-1 flex " rouded small>
-                  Áp dụng
-                </Button>
-              </div>
-            </form>
+            <Formik
+              initialValues={{
+                min: '',
+                max: '',
+              }}
+              onSubmit={handleSubmit}
+            >
+              {({ errors, touched, values, setFieldValue, handleChange }) => (
+                <Form action="#">
+                  <div className="flex leading-3 ">
+                    <span className="text-base flex ml-3 left my-auto">
+                      Tối thiểu:
+                    </span>
+                    <Field
+                      type="number"
+                      name="min"
+                      id="min"
+                      onChange={handleChange}
+                      className="w-28 ml-2 h-8 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
+                    />
+                    <p className={`ml-2 ${STYLES.text.text_orange}`}>đ</p>
+                  </div>
+
+                  <div className="flex leading-3  mt-4">
+                    <span className="text-base flex ml-3 left my-auto">
+                      Tối đa:{' '}
+                    </span>
+                    <Field
+                      type="number"
+                      name="max"
+                      id="max"
+                      onChange={handleChange}
+                      className="w-28 ml-6 h-8 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
+                    />
+                    <p className={`ml-2 ${STYLES.text.text_orange}`}>đ</p>
+                  </div>
+                  {/* <div className="flex leading-3  mt-4">
+                    <span className="text-base flex ml-3 left my-auto">
+                      Sắp xếp:{' '}
+                    </span>
+                    <select
+                      name=""
+                      id=""
+                      className="w-32 ml-3 h-10 rounded rinng-orange-600 ring-offset-transparent ring-0 ring-offset-0"
+                    >
+                      <option value="-1">Thấp - cao</option>
+                      <option value="1">Cao - thấp</option>
+                    </select>
+                  </div> */}
+                  <div className="flex justify-end mr-8">
+                    <Button
+                      className="mt-4 px-2 py-1 flex "
+                      rouded
+                      small
+                      type="submit"
+                    >
+                      Áp dụng
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
           {/* <div className="absolute bottom-20  w-full">
             <MenuItem icon={<HiOutlineLogout />} big>

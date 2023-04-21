@@ -22,7 +22,8 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    throw error;
+    // console.log(error);
+    return 0;
   }
 );
 export default axiosClient;

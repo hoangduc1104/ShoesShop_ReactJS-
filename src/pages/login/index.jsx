@@ -15,9 +15,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [state, dispatch] = useAuth();
   const [cartState, cartDispatch] = useCart();
+  const [errMesage, setErrMessage] = useState();
 
   const handleLogin = async (data) => {
     const tokenResponse = await AuthService.login(data);
+    if (tokenResponse === 0) {
+      setErrMessage('Thông tin đăng nhập không chính xác!');
+      return;
+    }
     setToken(tokenResponse.token);
     setIsValidToken(true);
     const userReponse = await AuthService.getMe(data, tokenResponse.token);
@@ -37,7 +42,11 @@ const LoginPage = () => {
       email: values.email,
       password: values.password,
     };
-    await handleLogin(data);
+    try {
+      const userReponse = await handleLogin(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -106,6 +115,14 @@ const LoginPage = () => {
                         required
                         onChange={handleChange}
                       />
+                    </div>
+                    <div>
+                      <p
+                        htmlFor="password"
+                        className={`${STYLES.text.text_orange} block mb-2 text-sm`}
+                      >
+                        {errMesage}
+                      </p>
                     </div>
                     <div className="flex item-center justify-center">
                       <Button type="submit" rouded className="px-12">

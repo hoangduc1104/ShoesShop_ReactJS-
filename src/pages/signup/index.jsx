@@ -15,14 +15,9 @@ const SignupPage = () => {
   const [state, dispatch] = useAuth();
   const [errMessage, setErrMessage] = useState();
 
-  const handleLogin = async (data) => {
-    const tokenResponse = await AuthService.login(data);
-    setToken(tokenResponse.token);
-    setIsValidToken(true);
-    const userReponse = await AuthService.getMe(data, tokenResponse.token);
-    setUser(userReponse);
-    dispatch(actions.getMeTodo(getUser() || null));
-    navigate('/', { replace: true });
+  const handleSignup = async (data) => {
+    const userResponse = await AuthService.signup(data);
+    navigate('/login', { replace: true });
   };
 
   const handleSubmit = async (values) => {
@@ -30,17 +25,27 @@ const SignupPage = () => {
       setErrMessage('Mật khẩu xác nhận không đúng!');
       return;
     }
-    const usersResponse = await UserService.getUserByEmail(values.email);
-    if (usersResponse) console.log(usersResponse);
+    const emailResponse = await UserService.getUserByEmail(values.email);
+    if (emailResponse === true) {
+      setErrMessage('Email này đã được đăng ký!');
+      return;
+    }
+    const phoneResponse = await UserService.getUserByPhone(values.phone);
+    if (phoneResponse === true) {
+      setErrMessage('Số điện thoại này đã được đăng ký!');
+      return;
+    }
+
     setErrMessage(null);
     const data = {
-      name: values.name,
+      username: values.username,
       email: values.email,
       password: values.password,
       phone: values.phone,
       address: values.address,
     };
-    // await handleLogin(data);
+    // console.log(data);
+    handleSignup(data);
   };
 
   return (
@@ -68,7 +73,7 @@ const SignupPage = () => {
               </span>
               <Formik
                 initialValues={{
-                  name: '',
+                  username: '',
                   email: '',
                   phone: '',
                   address: '',
@@ -88,8 +93,8 @@ const SignupPage = () => {
                       </label>
                       <Field
                         type="text"
-                        name="name"
-                        id="name"
+                        name="username"
+                        id="username"
                         className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-orange-600 focus:ring-orange-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400`}
                         placeholder="Họ tên"
                         required

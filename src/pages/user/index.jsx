@@ -50,9 +50,7 @@ const UserPage = () => {
               />
             </div>
             <div className="flex pl-10 mt-5">
-              <span
-                className={`flex text-md font-medium mr-3 leading-5 w-[140px]`}
-              >
+              <span className={`flex text-md font-medium mr-3 leading-5`}>
                 Địa chỉ:
               </span>
               <p

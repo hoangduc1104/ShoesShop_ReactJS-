@@ -4,7 +4,7 @@ import Button from '../../../../component/Button';
 import useDebounce from '../../../../hooks/useDebounce';
 import ProductService from '../../../../service/product';
 import { productActions, useProducts } from '../../../../Store';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import DropdownComponent from '../../../../component/Dropdown';
 import { STYLES } from '../../../../constant';
 
@@ -13,8 +13,10 @@ function Search(props) {
 
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
-  const inputRef = useRef();
+  let [searchParams, setSearchParams] = useSearchParams();
   const [state, dispatch] = useProducts();
+
+  const inputRef = useRef();
   const navigate = useNavigate();
 
   const debounce = useDebounce(searchValue, 500);
@@ -52,7 +54,7 @@ function Search(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/search', { state: { result: searchResult } });
+    navigate(`/search`, { state: { result: searchResult, keyword: debounce } });
     dispatch(productActions.searchResult(searchResult));
     if (inputRef && inputRef.current && inputRef.current.blur)
       inputRef.current.blur();

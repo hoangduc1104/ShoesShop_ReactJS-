@@ -10,7 +10,7 @@ export default function Cart({ openCart, callBack }) {
   const [cartState, cartDispatch] = useCart();
 
   var total;
-  if (cartState.cart) {
+  if (cartState.cart && cartState.cart.length > 0) {
     total = cartState?.cart[0].products
       .reduce(
         (total, product) => total + product.product.price * product.quantity,
@@ -80,7 +80,7 @@ export default function Cart({ openCart, callBack }) {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {cartState.cart ? (
+                            {cartState.cart && cartState.cart.length > 0 ? (
                               cartState.cart[0].products?.map((product) => (
                                 <li key={product._id} className="flex py-6">
                                   <ProductItem
