@@ -43,7 +43,7 @@ const SearchPage = () => {
     // };
     setSearchParams({
       page: 1,
-      keyword: location.state?.keyword,
+      keyword: state.searchKey,
       min: location.state?.min,
       max: location.state?.max,
     });

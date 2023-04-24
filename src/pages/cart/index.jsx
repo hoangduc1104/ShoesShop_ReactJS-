@@ -80,8 +80,10 @@ export default function Cart({ openCart, callBack }) {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {cartState.cart && cartState.cart.length > 0 ? (
-                              cartState.cart[0].products?.map((product) => (
+                            {cartState.cart &&
+                            cartState?.cart[0]?.products &&
+                            cartState?.cart[0]?.products?.length > 0 ? (
+                              cartState.cart[0]?.products?.map((product) => (
                                 <li key={product._id} className="flex py-6">
                                   <ProductItem
                                     product={product}

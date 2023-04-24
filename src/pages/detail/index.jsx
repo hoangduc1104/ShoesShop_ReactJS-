@@ -1,8 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import img from '../../p3.jpg';
-import img2 from '../../p2.webp';
-import img3 from '../../p1.jpg';
 import { Carousel } from 'flowbite-react';
 import { STYLES } from '../../constant';
 import { useEffect } from 'react';
@@ -22,7 +19,6 @@ const Detail = () => {
   const [showBar] = useOutletContext();
   const [colorValue, setColorValue] = useState(null);
   const [data, setData] = useState({});
-  const [price, setPrice] = useState(22);
   const [sizeValue, setSizeValue] = useState(null);
   const [quantityValue, setQuantityValue] = useState(1);
   const [loadding, setLoadding] = useState(false);
@@ -57,6 +53,11 @@ const Detail = () => {
   }
 
   const handleAddToCart = async () => {
+    if (!getUser()) {
+      navigate('/login', { replace: true });
+      return;
+    }
+
     if (!colorValue) {
       setErrMessage('Vui lòng chọn màu!');
       return;

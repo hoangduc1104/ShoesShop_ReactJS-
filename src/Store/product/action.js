@@ -3,6 +3,9 @@ import {
   LOADDING,
   SEARCH_RESULT,
   SEARCH_RELOAD,
+  SEARCH_KEY,
+  SEARCH_MAX,
+  SEARCH_MIN,
 } from './constant';
 
 export const getAllProduct = (payload) => ({
@@ -19,5 +22,17 @@ export const searchResult = (payload) => ({
 });
 export const searchReload = (payload) => ({
   type: SEARCH_RELOAD,
+  payload,
+});
+export const setSearchKey = (payload) => ({
+  type: SEARCH_KEY,
+  payload,
+});
+export const setSearchMax = (payload) => ({
+  type: SEARCH_MAX,
+  payload,
+});
+export const setSearchMin = (payload) => ({
+  type: SEARCH_MIN,
   payload,
 });

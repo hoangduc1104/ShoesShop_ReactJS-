@@ -4,6 +4,9 @@ import {
   LOADDING,
   SEARCH_RESULT,
   SEARCH_RELOAD,
+  SEARCH_KEY,
+  SEARCH_MAX,
+  SEARCH_MIN,
 } from './constant';
 
 const initState = {
@@ -11,6 +14,9 @@ const initState = {
   loadding: false,
   searchResult: [],
   searchReload: false,
+  searchKey: '',
+  searchMax: '',
+  searchMin: '',
 };
 
 function reducer(state, action) {
@@ -34,6 +40,21 @@ function reducer(state, action) {
       return {
         ...state,
         searchReload: action.payload,
+      };
+    case SEARCH_KEY:
+      return {
+        ...state,
+        searchKey: action.payload,
+      };
+    case SEARCH_MAX:
+      return {
+        ...state,
+        searchMax: action.payload,
+      };
+    case SEARCH_MIN:
+      return {
+        ...state,
+        searchMin: action.payload,
       };
     default:
       throw new Error('INvalid Action');

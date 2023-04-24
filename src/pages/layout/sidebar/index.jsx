@@ -18,6 +18,11 @@ const Sidebar = ({ width, callBack, showBar }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(productActions.setSearchMax(''));
+    dispatch(productActions.setSearchMin(''));
+  }, []);
+
   const handleSubmit = async (values) => {
     dispatch(productActions.searchReload(true));
     const response = await ProductService.getAll({
@@ -27,6 +32,8 @@ const Sidebar = ({ width, callBack, showBar }) => {
       // keyword: debounce,
     });
     dispatch(productActions.searchReload(false));
+    dispatch(productActions.setSearchMax(values.max));
+    dispatch(productActions.setSearchMin(values.min));
 
     dispatch(productActions.searchResult(response));
     navigate(`/search`, { state: { max: values.max, min: values.min } });
