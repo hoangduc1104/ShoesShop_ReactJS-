@@ -6,6 +6,7 @@ const CartService = {
   addtocart: (id, data, token) => CART_API.addToCart(id, data, token),
   deleteProductInCart: (data, token) =>
     CART_API.deleteProductInCart(data, token),
+  updateCart: (params, data, token) => CART_API.updateCart(params, data, token),
 };
 
 export default CartService;

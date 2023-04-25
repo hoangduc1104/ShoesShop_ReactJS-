@@ -8,6 +8,7 @@ import Detail from './pages/detail';
 import UserPage from './pages/user';
 import SearchPage from './pages/search';
 import SignupPage from './pages/signup';
+import UpdateCart from './pages/updateCart';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route path={'/search'} element={<SearchPage />}></Route>
           <Route path={'/user'} element={<UserPage />}></Route>
           <Route path={'/detail/:productId'} element={<Detail />}></Route>
+          <Route
+            path={'update/detail/:orderID'}
+            element={<UpdateCart />}
+          ></Route>
         </Route>
       </Routes>
     </div>

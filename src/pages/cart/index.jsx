@@ -84,7 +84,7 @@ export default function Cart({ openCart, callBack }) {
                             cartState?.cart[0]?.products &&
                             cartState?.cart[0]?.products?.length > 0 ? (
                               cartState.cart[0]?.products?.map((product) => (
-                                <li key={product._id} className="flex py-6">
+                                <li key={product._id} className="">
                                   <ProductItem
                                     product={product}
                                     // callback=handleDeleteCart(product._id)

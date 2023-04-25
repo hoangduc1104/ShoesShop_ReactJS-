@@ -26,6 +26,14 @@ const CART_API = {
     });
     return response;
   },
+  updateCart: async (params, data, token) => {
+    const url = 'cart';
+    const response = await axiosClient.put(url, data, {
+      params: params,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
+  },
 };
 
 export default CART_API;
