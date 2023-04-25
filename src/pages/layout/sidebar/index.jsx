@@ -35,7 +35,7 @@ const Sidebar = ({ width, callBack, showBar }) => {
     dispatch(productActions.setSearchMax(values.max));
     dispatch(productActions.setSearchMin(values.min));
 
-    dispatch(productActions.searchResult(response));
+    // dispatch(productActions.searchResult(response));
     navigate(`/search`, { state: { max: values.max, min: values.min } });
   };
 

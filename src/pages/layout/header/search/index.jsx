@@ -62,7 +62,7 @@ function Search(props) {
       keyword: searchValue,
     });
 
-    dispatch(productActions.searchResult(searchResult));
+    // dispatch(productActions.searchResult(searchResult));
     if (inputRef && inputRef.current && inputRef.current.blur)
       inputRef.current.blur();
     setOpenMenu(false);

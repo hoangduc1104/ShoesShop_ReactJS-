@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+li[aria-current='page'] > button {
+  background-color: #d03901 !important;
+  color: white !important;
+}

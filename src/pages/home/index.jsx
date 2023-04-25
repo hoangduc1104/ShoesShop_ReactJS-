@@ -8,19 +8,25 @@ import CategoryService from '../../service/category';
 import ProductService from '../../service/product';
 import { cartActions, productActions, useCart, useProducts } from '../../Store';
 import { getProductInCart } from '../../helper/cart';
+import { Pagination } from 'flowbite-react';
+// import Pagination from '../../component/Pagination';
 
 const HomePage = () => {
   const [state, dispatch] = useProducts();
-  const [cartState, cartDispatch] = useCart();
 
   const [showBar] = useOutletContext();
   const [me, setMe] = useState();
   const [categories, setCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const getall = async () => {
     const categoryResponse = await CategoryService.getAll({ page: 1 });
     const data = {
-      page: 1,
+      page: currentPage,
     };
     const productResponse = await ProductService.getAll(data);
     dispatch(productActions.getAllProduct(productResponse));
@@ -29,8 +35,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getall();
-    // cartState.cart ? console.log(cartState.cart.length) : console.log('abc');
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {}, [state.productsData]);
 
@@ -76,6 +81,16 @@ const HomePage = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="flex items-center justify-center text-center my-10">
+        <Pagination
+          className=""
+          currentPage={currentPage}
+          layout="pagination"
+          onPageChange={onPageChange}
+          showIcons={true}
+          totalPages={3}
+        />
       </div>
     </>
   );

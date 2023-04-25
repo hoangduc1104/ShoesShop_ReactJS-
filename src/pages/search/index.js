@@ -12,6 +12,7 @@ import CategoryService from '../../service/category';
 import ProductService from '../../service/product';
 import { productActions, useProducts } from '../../Store';
 import { getProductResult, setProductResult } from '../../helper/product';
+import { Pagination } from 'flowbite-react';
 
 const SearchPage = () => {
   const [state, dispatch] = useProducts();
@@ -25,43 +26,34 @@ const SearchPage = () => {
   const [max, setMax] = useState();
   const [min, setMin] = useState();
   const [page, setPage] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const getall = async () => {
     const categoryResponse = await CategoryService.getAll({ page: 1 });
     const data = {
-      page: 1,
-    };
-    // setPage(1);
-    // setKey(location.state?.keyword);
-    // setMin(location.state?.min);
-    // setMax(location.state?.max);
-    // const data2 = {
-    //   page: 1,
-    //   keyword: location.state?.keyword,
-    //   min: location.state?.min,
-    //   max: location.state?.max,
-    // };
-    setSearchParams({
-      page: 1,
+      page: currentPage,
       keyword: state.searchKey,
-      min: location.state?.min,
-      max: location.state?.max,
+      min: state.searchMin,
+      max: state.searchMax,
+    };
+
+    setSearchParams({
+      keyword: state.searchKey,
+      min: state.searchMin,
+      max: state.searchMax,
     });
-    const productResponse =
-      location.state?.result || (await ProductService.getAll(data));
-    dispatch(productActions.getAllProduct(productResponse));
+    const productResponse = await ProductService.getAll(data);
+    dispatch(productActions.searchResult(productResponse));
     setCategories(categoryResponse);
-    // const res = await ProductService.getAll(data2);
-    // console.log(res);
-    console.log(location.state?.keyword);
-    console.log(location.state?.min);
-    console.log(location.state?.max);
-    console.log(location.state);
   };
 
   useEffect(() => {
     getall();
-  }, [state.searchReload]);
+  }, [state.searchReload, currentPage]);
 
   useEffect(() => {}, [state.searchResult]);
 
@@ -107,6 +99,16 @@ const SearchPage = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="flex items-center justify-center text-center my-10">
+        <Pagination
+          className=""
+          currentPage={currentPage}
+          layout="pagination"
+          onPageChange={onPageChange}
+          showIcons={true}
+          totalPages={3}
+        />
       </div>
     </>
   );
