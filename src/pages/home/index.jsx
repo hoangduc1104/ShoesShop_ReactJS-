@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../../component/ProductCard';
 import { STYLES } from '../../constant';
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import CategoryItem from '../../component/CategoryItem';
 import { getUser } from '../../helper/auth';
 import CategoryService from '../../service/category';
@@ -13,11 +13,13 @@ import { Pagination } from 'flowbite-react';
 
 const HomePage = () => {
   const [state, dispatch] = useProducts();
+  const navigate = useNavigate();
 
   const [showBar] = useOutletContext();
   const [me, setMe] = useState();
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [cateActive, setCateActive] = useState(-1);
 
   const onPageChange = (page) => {
     setCurrentPage(page);
@@ -43,6 +45,16 @@ const HomePage = () => {
     setMe(getUser());
   }, []);
 
+  const hanndleFindByCategory = async (idx, cateId) => {
+    setCateActive(idx);
+    dispatch(productActions.loadding(true));
+    const response = await ProductService.getAll({
+      category_id: cateId,
+    });
+    dispatch(productActions.getAllProduct(response));
+    dispatch(productActions.loadding(false));
+  };
+
   return (
     <>
       <div className="mb-14">
@@ -56,7 +68,15 @@ const HomePage = () => {
         >
           {categories?.map((category, index) => (
             <div className="flex" key={category._id}>
-              <CategoryItem data={category} />
+              <CategoryItem
+                data={category}
+                onClick={() => hanndleFindByCategory(index, category._id)}
+                className={
+                  cateActive === index
+                    ? 'border-2 border-solid border-orange-600 active'
+                    : ''
+                }
+              />
             </div>
           ))}
         </div>

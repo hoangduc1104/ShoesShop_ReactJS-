@@ -1,9 +1,10 @@
 import React from 'react';
 import { STYLES } from '../../constant';
+import { NavLink } from 'react-router-dom';
 
-function CategoryItem({ data, props }) {
+function CategoryItem({ data, className, onClick, props }) {
   return (
-    <div>
+    <div className={`rounded overflow-hidden ${className}`} onClick={onClick}>
       <div
         className={`${STYLES.background.bg_primary} shadow hover:shadow-xl rounded w-full aspect-square`}
       >
