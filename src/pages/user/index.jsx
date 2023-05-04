@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import Button from '../../component/Button';
-import avatar from '../../ava.png';
+// import avatar from '../../ava.png';
 import { STYLES } from '../../constant';
 import { getUser } from '../../helper/auth';
+import { AiFillCamera, AiFillEdit } from 'react-icons/ai';
+import ImageModal from './updateImage-modal';
 
 const UserPage = () => {
   const [showBar] = useOutletContext();
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const handleSetShowModal = (value) => {
+    setIsShowModal(value);
+  };
 
   return (
     <>
@@ -21,11 +28,26 @@ const UserPage = () => {
               showBar ? '' : 'md:col-span-2 md:h-1/2'
             } lg:col-span-2 lg:h-1/2`}
           >
-            <img
-              src={avatar}
-              className="w-[300px] h-[300px] rounded-full mx-auto mb-5"
-              alt=""
-            />
+            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+              <img
+                // src={
+                //   'http://localhost:3002/user/profile-image/p3-1683165722506-202172297.jpg'
+                // }
+                src={`${
+                  process.env.REACT_APP_BASE_URL
+                }${'/user/profile-image/'}${getUser().image}`}
+                className="w-[300px] h-[300px] rounded-full mx-auto mb-5"
+                alt=""
+              />
+              <div className="w-full bg-orange-300 absolute bottom-0 left-1/2 -translate-x-1/2 mx-auto h-[50px]">
+                <span
+                  className={`${STYLES.text.text_orange}  text-5xl my-auto`}
+                  onClick={() => setIsShowModal(true)}
+                >
+                  <AiFillCamera className="mx-auto" />
+                </span>
+              </div>
+            </div>
 
             <span className={`${STYLES.text.text_orange} font-medium text-xl`}>
               {getUser().username}
@@ -88,6 +110,10 @@ const UserPage = () => {
           </div>
         </div>
       </div>
+      <ImageModal
+        isShowModal={isShowModal}
+        setIsShowModal={() => handleSetShowModal(false)}
+      />
     </>
   );
 };

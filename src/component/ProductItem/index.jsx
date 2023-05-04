@@ -18,7 +18,7 @@ function ProductItem({ product, callback, ...props }) {
     };
     const token = getToken();
     setLoadding(true);
-    const reponse = await CartService.deleteProductInCart(data, token);
+    await CartService.deleteProductInCart(data, token);
     setLoadding(false);
   };
 
@@ -36,16 +36,16 @@ function ProductItem({ product, callback, ...props }) {
   }, [loadding]);
   return (
     <>
-      <div
-        onClick={() => {
-          navigate(`update/detail/${product?._id}`, {
-            state: { productItem: product },
-          });
-          cartDispatch(cartActions.setOpenCart(false));
-        }}
-        className="flex py-6"
-      >
-        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+      <div className="flex py-6">
+        <div
+          className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+          onClick={() => {
+            navigate(`update/detail/${product?._id}`, {
+              state: { productItem: product },
+            });
+            cartDispatch(cartActions.setOpenCart(false));
+          }}
+        >
           <img
             src={product?.product.avatar}
             alt={product?.product.avatar}
@@ -54,7 +54,14 @@ function ProductItem({ product, callback, ...props }) {
         </div>
 
         <div className="ml-4 flex flex-1 flex-col">
-          <div>
+          <div
+            onClick={() => {
+              navigate(`update/detail/${product?._id}`, {
+                state: { productItem: product },
+              });
+              cartDispatch(cartActions.setOpenCart(false));
+            }}
+          >
             <div className="flex justify-between text-base font-medium text-gray-900">
               <h3 className="line-clamp-2">
                 <p href={'#'} className="cursor-pointer">

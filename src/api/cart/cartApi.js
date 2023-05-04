@@ -30,7 +30,9 @@ const CART_API = {
     const url = 'cart';
     const response = await axiosClient.put(url, data, {
       params: params,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response;
   },

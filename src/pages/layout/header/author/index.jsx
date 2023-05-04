@@ -40,7 +40,13 @@ function Author(props) {
             onClick={() => setOpenMenu(!openMenu)}
             className={`account flex ml-10 text-xl font-semibold my-auto cursor-pointer hover:text-${STYLES.color.primary}`}
           >
-            <img src={me.image} alt="" className="w-10 h-10 rounded-full" />
+            <img
+              src={`${process.env.REACT_APP_BASE_URL}${'/user/profile-image/'}${
+                getUser().image
+              }`}
+              alt=""
+              className="w-10 h-10 rounded-full"
+            />
             <span
               className={` my-auto ml-2`}
               data-dropdown-toggle="dropdown"
