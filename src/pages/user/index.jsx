@@ -28,7 +28,7 @@ const UserPage = () => {
               showBar ? '' : 'md:col-span-2 md:h-1/2'
             } lg:col-span-2 lg:h-1/2`}
           >
-            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden">
+            <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden mx-auto mb-4">
               <img
                 // src={
                 //   'http://localhost:3002/user/profile-image/p3-1683165722506-202172297.jpg'

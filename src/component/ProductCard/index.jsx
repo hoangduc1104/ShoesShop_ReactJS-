@@ -9,19 +9,18 @@ function ProductCard({ data, props }) {
   return (
     <>
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:shadow-xl">
-        <Button
+        <div
           onClick={() =>
             navigate(`/detail/${data._id}`, { state: { id: data._id } })
           }
-          className="border-b-2 border-orange-100 relative bg-white"
+          className="border-b-2 border-orange-100 w-full relative bg-white"
         >
-          <div className="mt-full"></div>
           <img
             className="rounded-t-lg w-full aspect-square right-0 border-b-2 border-orange-100"
             src={data.avatar}
             alt=""
           />
-        </Button>
+        </div>
         <div className="p-5">
           <Button
             onClick={() => navigate('detail', { state: { id: data._id } })}

@@ -39,8 +39,8 @@ const Layout = () => {
   }, [showBar]);
 
   return (
-    <div className="max-w-screen-2xl mx-auto">
-      <div className="bg-red fixed w-full z-30 max-w-screen-2xl">
+    <div className=" mx-auto">
+      <div className="bg-red fixed w-full z-30 ">
         <Header />
       </div>
       <div className="flex relative top-20 w-full">

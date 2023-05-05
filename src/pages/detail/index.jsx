@@ -90,7 +90,6 @@ const Detail = () => {
         getUser()._id,
         getToken()
       );
-      // console.log('set 1');
       cartDispatch(cartActions.setCart(cartReponse));
       setProductInCart(cartReponse);
     }

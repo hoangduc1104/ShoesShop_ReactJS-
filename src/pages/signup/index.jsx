@@ -44,7 +44,6 @@ const SignupPage = () => {
       phone: values.phone,
       address: values.address,
     };
-    // console.log(data);
     handleSignup(data);
   };
 

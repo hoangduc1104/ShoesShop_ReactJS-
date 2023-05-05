@@ -66,6 +66,20 @@ const HomePage = () => {
             showBar ? 'md:grid-cols-4' : 'md:grid-cols-6'
           } lg:grid-cols-6 gap-2`}
         >
+          <div
+            className={`bg-white flex rounded ${
+              cateActive === -1
+                ? 'border-2 border-solid border-orange-600 active'
+                : ''
+            }`}
+            onClick={() => {
+              hanndleFindByCategory(-1, null);
+            }}
+          >
+            <p className="m-auto text-3xl font-medium text-orange-600">
+              Tất cả
+            </p>
+          </div>
           {categories?.map((category, index) => (
             <div className="flex" key={category._id}>
               <CategoryItem

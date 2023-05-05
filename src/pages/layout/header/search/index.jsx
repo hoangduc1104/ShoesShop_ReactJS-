@@ -99,7 +99,7 @@ function Search(props) {
                   placeholder="Nhập từ khoá cần tìm..."
                   onChange={handleChange}
                   onFocus={() => setOpenMenu(true)}
-                  onBlur={() => setOpenMenu(false)}
+                  // onBlur={() => setOpenMenu(false)}
                 />
                 <Button
                   leftIcon={<BsSearch />}

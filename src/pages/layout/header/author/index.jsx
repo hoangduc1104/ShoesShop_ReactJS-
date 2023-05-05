@@ -25,7 +25,6 @@ function Author(props) {
     dispatch(actions.getMeTodo(getUser()));
     cookies.remove('token');
     dispatch(actions.loadingTodo(false));
-    // console.log('set 2');
     cartDispatch(cartActions.setCart(null));
     setProductInCart(null);
     navigate('/');
@@ -76,7 +75,9 @@ function Author(props) {
                 className={`${STYLES.text.text_secondary} py-2 text-sm dark:text-gray-200`}
               >
                 <li>
-                  <MenuItem icon={<FaUserEdit />}>Tài khoản</MenuItem>
+                  <MenuItem icon={<FaUserEdit />} to={'/user'}>
+                    Tài khoản
+                  </MenuItem>
                 </li>
               </ul>
             </DropdownComponent>

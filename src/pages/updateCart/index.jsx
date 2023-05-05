@@ -34,7 +34,6 @@ const UpdateCart = () => {
     );
     setData(reponse);
   };
-  // console.log(location.state?.productItem);
 
   useEffect(() => {
     getData();
@@ -70,8 +69,7 @@ const UpdateCart = () => {
       userId: getUser()._id,
       productId: location.state?.productItem._id,
     };
-    console.log(datas);
-    console.log(params);
+
     setLoadding(true);
     const reponse = await CartService.updateCart(params, datas, getToken());
     setLoadding(false);
