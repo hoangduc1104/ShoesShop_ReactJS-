@@ -41,7 +41,9 @@ const Header = () => {
                 className={`text-xs text-white absolute -right-2 -top-1 bg-${STYLES.color.primary} rounded-full overflow-hidden`}
               >
                 <span className="px-2 py-0">
-                  {cartState.cart ? cartState?.cart[0]?.products.length : 0}
+                  {cartState.cart && getUser()
+                    ? cartState?.cart[0]?.products.length
+                    : 0}
                 </span>
               </div>
               <AiOutlineShoppingCart onClick={() => handleShowCart()} />

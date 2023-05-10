@@ -23,7 +23,9 @@ function ProductCard({ data, props }) {
         </div>
         <div className="p-5">
           <Button
-            onClick={() => navigate('detail', { state: { id: data._id } })}
+            onClick={() =>
+              navigate(`/detail/${data._id}`, { state: { id: data._id } })
+            }
             className=" bg-white pl-0 pr-0"
           >
             <h5

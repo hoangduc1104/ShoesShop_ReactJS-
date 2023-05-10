@@ -11,8 +11,8 @@ import { getUser } from '../../helper/auth';
 import CategoryService from '../../service/category';
 import ProductService from '../../service/product';
 import { productActions, useProducts } from '../../Store';
-import { getProductResult, setProductResult } from '../../helper/product';
 import { Pagination } from 'flowbite-react';
+import not_found_img from '../../not-found.jpg';
 
 const SearchPage = () => {
   const [state, dispatch] = useProducts();
@@ -22,17 +22,16 @@ const SearchPage = () => {
   const [showBar] = useOutletContext();
   const [me, setMe] = useState();
   const [categories, setCategories] = useState([]);
-  const [key, setKey] = useState();
-  const [max, setMax] = useState();
-  const [min, setMin] = useState();
-  const [page, setPage] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const [loadding, setLoadding] = useState(false);
+  const [isLoadding, setIsLoadding] = useState(false);
 
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
 
   const getall = async () => {
+    setLoadding(true);
     const categoryResponse = await CategoryService.getAll({ page: 1 });
     const data = {
       page: currentPage,
@@ -49,13 +48,13 @@ const SearchPage = () => {
     const productResponse = await ProductService.getAll(data);
     dispatch(productActions.searchResult(productResponse));
     setCategories(categoryResponse);
+    setLoadding(false);
+    setIsLoadding(true);
   };
 
   useEffect(() => {
     getall();
   }, [state.searchReload, currentPage]);
-
-  useEffect(() => {}, [state.searchResult]);
 
   useEffect(() => {
     setMe(getUser());
@@ -83,22 +82,30 @@ const SearchPage = () => {
         <div>
           <h3 className="text-xl font-medium flex left mb-3">Khám phá</h3>
         </div>
-        <div
-          className={`${
-            STYLES.background.bg_secondary
-          } h-max grid grid-cols-2 gap-4
-            ${
-              showBar
-                ? 'md:grid-cols-3 lg:grid-cols-4'
-                : 'md:grid-cols-4 lg:grid-cols-5'
-            }  xl:grid-cols-5`}
-        >
-          {state.searchResult?.map((product) => (
-            <div key={product._id}>
-              <ProductCard data={product} />
-            </div>
-          ))}
-        </div>
+        {loadding && <p>LOADDING...</p>}
+        {isLoadding && state.searchResult?.length === 0 ? (
+          <div>
+            <p>Không có kết quả phù hợp!!!</p>
+            <img src={not_found_img} className="w-full h-[70vh]" />
+          </div>
+        ) : (
+          <div
+            className={`${
+              STYLES.background.bg_secondary
+            } h-max grid grid-cols-2 gap-4
+          ${
+            showBar
+              ? 'md:grid-cols-3 lg:grid-cols-4'
+              : 'md:grid-cols-4 lg:grid-cols-5'
+          }  xl:grid-cols-5`}
+          >
+            {state.searchResult?.map((product) => (
+              <div key={product._id}>
+                <ProductCard data={product} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-center text-center my-10">
         <Pagination

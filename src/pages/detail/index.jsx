@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Carousel } from 'flowbite-react';
 import { STYLES } from '../../constant';
@@ -31,7 +31,7 @@ const Detail = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [location.state]);
 
   function handleChooseMode(listID, labelId, currentClass) {
     var header = document.getElementById(listID);
