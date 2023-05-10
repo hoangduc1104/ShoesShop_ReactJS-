@@ -37,13 +37,6 @@ const Search = React.memo((props) => {
     }
   };
 
-  const handlePickResult = (id) => {
-    navigate(`detail/${id}`, {
-      state: { id: id },
-    });
-    setOpenMenu(false);
-  };
-
   const hanhdleSearch = async () => {
     setLoadding(true);
     const response = await ProductService.getAll({
@@ -55,6 +48,13 @@ const Search = React.memo((props) => {
     setLoadding(false);
   };
 
+  const handlePickResult = (id) => {
+    navigate(`detail/${id}`, {
+      state: { id: id },
+    });
+    setOpenMenu(false);
+  };
+
   const handleSubmit = async () => {
     dispatch(productActions.searchReload(true));
 
@@ -63,7 +63,6 @@ const Search = React.memo((props) => {
       keyword: searchValue,
     });
 
-    // dispatch(productActions.searchResult(searchResult));
     if (inputRef && inputRef.current && inputRef.current.blur)
       inputRef.current.blur();
     setOpenMenu(false);
@@ -78,6 +77,18 @@ const Search = React.memo((props) => {
     navigate(`/search`, {
       state: { result: searchResult, keyword: searchValue },
     });
+  };
+
+  const history = () => {
+    if (searchValue === '') {
+      return getHistory();
+    } else {
+      const his = getHistory();
+      const reponse = his.filter((h) =>
+        h.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      return reponse;
+    }
   };
 
   useEffect(() => {
@@ -121,7 +132,10 @@ const Search = React.memo((props) => {
                 {!loadding && searchValue && (
                   <div
                     className="my-auto flex cursor-pointer"
-                    onClick={() => setSearchValue('')}
+                    onClick={() => {
+                      setSearchValue('');
+                      inputRef.current.focus();
+                    }}
                   >
                     <AiOutlineClose
                       className={`${STYLES.text.text_secondary} text-center items-center mr-3 `}
@@ -148,8 +162,8 @@ const Search = React.memo((props) => {
                   <ul
                     className={`${STYLES.text.text_primary}  border-b-2 border-b-solid border-orange-100 text-sm`}
                   >
-                    {getHistory().length > 0 &&
-                      getHistory()
+                    {history().length > 0 &&
+                      history()
                         .slice(0, 5)
                         .map((history, index) => (
                           <li
@@ -168,39 +182,45 @@ const Search = React.memo((props) => {
                         ))}
                   </ul>
 
-                  <div className="text-lg flex left pl-4 pt-2">
-                    <p className="h-8">Kết quả tìm kiếm...</p>
-                  </div>
+                  {searchValue !== '' && (
+                    <div>
+                      <div className="text-lg flex left pl-4 pt-2">
+                        <p className="h-8">Kết quả tìm kiếm...</p>
+                      </div>
 
-                  <ul
-                    className={`${STYLES.text.text_primary} py-2 text-sm dark:text-gray-200`}
-                  >
-                    {searchResult.length > 0 ? (
-                      searchResult.slice(0, 7).map((result) => (
-                        <li
-                          key={result._id}
-                          onClick={() => handlePickResult(result._id)}
-                        >
-                          <div
-                            className={`${STYLES.text.text_secondary} text-lg flex pl-6 py-2 cursor-pointer hover:bg-orange-100`}
-                          >
-                            <BsSearch className="flex my-auto mr-2" />
-                            <p className="h-8   line-clamp-1">{result.name}</p>
-                          </div>
-                        </li>
-                      ))
-                    ) : (
-                      <li>
-                        <div
-                          className={`${STYLES.text.text_secondary} text-lg`}
-                        >
-                          <p className="h-8">
-                            Không tìm thấy kết quả phù hợp..
-                          </p>
-                        </div>
-                      </li>
-                    )}
-                  </ul>
+                      <ul
+                        className={`${STYLES.text.text_primary} py-2 text-sm dark:text-gray-200`}
+                      >
+                        {searchResult.length > 0 ? (
+                          searchResult.slice(0, 7).map((result) => (
+                            <li
+                              key={result._id}
+                              onClick={() => handlePickResult(result._id)}
+                            >
+                              <div
+                                className={`${STYLES.text.text_secondary} text-lg flex pl-6 py-2 cursor-pointer hover:bg-orange-100`}
+                              >
+                                <BsSearch className="flex my-auto mr-2" />
+                                <p className="h-8   line-clamp-1">
+                                  {result.name}
+                                </p>
+                              </div>
+                            </li>
+                          ))
+                        ) : (
+                          <li>
+                            <div
+                              className={`${STYLES.text.text_secondary} text-lg`}
+                            >
+                              <p className="h-8">
+                                Không tìm thấy kết quả phù hợp..
+                              </p>
+                            </div>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
                 </DropdownComponent>
               </div>
             </div>
