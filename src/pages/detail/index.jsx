@@ -10,6 +10,12 @@ import CartService from '../../service/cart';
 import { getToken, getUser } from '../../helper/auth';
 import { cartActions, useCart } from '../../Store';
 import { setProductInCart } from '../../helper/cart';
+import Rating from './ratings';
+import p1 from '../../p1.jpg';
+import Modal from '../../component/Modal';
+import CommentService from '../../service/comment';
+import io from 'socket.io-client';
+import { comment } from 'postcss';
 
 const Detail = () => {
   const [cartState, cartDispatch] = useCart();
@@ -23,6 +29,7 @@ const Detail = () => {
   const [quantityValue, setQuantityValue] = useState(1);
   const [loadding, setLoadding] = useState(false);
   const [errMessage, setErrMessage] = useState();
+  const [ratingModal, setRatingModal] = useState(false);
 
   const getData = async () => {
     const reponse = await ProductService.getById(location.state?.id);
@@ -105,13 +112,42 @@ const Detail = () => {
   useEffect(() => {
     handleChooseMode('list-product-size', 'label', 'product-size-item');
   }, [sizeValue]);
+
+  //Comment
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const socket = io('http://localhost:3002');
+
+    socket.on('newComment', (comment) => {
+      setComments((prevComments) => [...prevComments, comment]);
+      console.log(comment);
+    });
+
+    loadComments();
+
+    return () => {
+      // Ngừng lắng nghe khi component bị hủy
+      socket.off('newComment');
+    };
+  }, []);
+
+  const loadComments = async () => {
+    const response = await CommentService.getAllCommentByProduct(
+      location.state?.id
+    );
+    setComments(response);
+  };
+
+  console.log(comments);
+
   return (
     <>
       <div className="h-max">
         <div
           className={`${
             showBar ? '' : 'md:grid md:grid-cols-5'
-          } lg:grid lg:grid-cols-5 gap-8`}
+          } lg:grid lg:grid-cols-5 gap-8  border-b-2 border-b-solid`}
         >
           <div
             className={`${
@@ -252,8 +288,10 @@ const Detail = () => {
                   {errMessage}
                 </p>
               )}
-              <div className="mt-0 mb-20 flex">
-                <Button rouded>Mua</Button>
+              <div className="mt-0 mb-8 flex">
+                <Button rouded onClick={() => setRatingModal(true)}>
+                  Mua
+                </Button>
                 <div className="ml-10">
                   <Button
                     rouded
@@ -267,7 +305,28 @@ const Detail = () => {
             </div>
           </div>
         </div>
+
+        <div className="rating text-left my-8">
+          <div className="flex">
+            <h3 className="text-lg font-medium">ĐÁNH GIÁ SẢN PHẨM</h3>
+            <span
+              className={`${STYLES.text.text_secondary} pb-0 items-end ml-4 `}
+            >
+              ({comments.length}) đánh giá.
+            </span>
+          </div>
+          {comments?.map((comment) => (
+            <div className="mt-6" key={comment._id}>
+              <Rating image={p1} comment={comment} />
+            </div>
+          ))}
+        </div>
       </div>
+      <Modal
+        ratingModal={ratingModal}
+        setRatingModal={(value) => setRatingModal(value)}
+        product={data}
+      />
     </>
   );
 };

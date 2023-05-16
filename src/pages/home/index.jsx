@@ -75,7 +75,7 @@ const HomePage = () => {
               } lg:grid-cols-6 gap-2`}
             >
               <div
-                className={`bg-white flex rounded ${
+                className={`bg-white flex hover:shadow-lg cursor-pointer rounded ${
                   cateActive === -1
                     ? 'border-2 border-solid border-orange-600 active'
                     : ''
@@ -89,7 +89,10 @@ const HomePage = () => {
                 </p>
               </div>
               {categories?.map((category, index) => (
-                <div className="flex" key={category._id}>
+                <div
+                  className="flex hover:shadow-lg cursor-pointer"
+                  key={category._id}
+                >
                   <CategoryItem
                     data={category}
                     onClick={() => hanndleFindByCategory(index, category._id)}

@@ -4,6 +4,7 @@ import { cartActions, useCart } from '../../Store';
 import CartService from '../../service/cart';
 import { setProductInCart } from '../../helper/cart';
 import { Link, useNavigate } from 'react-router-dom';
+import { STYLES } from '../../constant';
 
 function ProductItem({ product, callback, ...props }) {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ function ProductItem({ product, callback, ...props }) {
                   {product?.product.name}
                 </p>
               </h3>
-              <p className="ml-4">
+              <p className={`ml-4 ${STYLES.text.text_orange}`}>
                 {product?.product.price.toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'VND',
