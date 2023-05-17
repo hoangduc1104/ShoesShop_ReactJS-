@@ -24,12 +24,14 @@ function ProductItem({ product, callback, ...props }) {
   };
 
   const handleReLoad = async () => {
-    const cartReponse = await CartService.getAllByUserId(
-      getUser()._id,
-      getToken()
-    );
-    cartDispatch(cartActions.setCart(cartReponse));
-    setProductInCart(cartReponse);
+    if (getToken()) {
+      const cartReponse = await CartService.getAllByUserId(
+        getUser()._id,
+        getToken()
+      );
+      cartDispatch(cartActions.setCart(cartReponse));
+      setProductInCart(cartReponse);
+    }
   };
 
   useEffect(() => {

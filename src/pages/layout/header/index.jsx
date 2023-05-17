@@ -8,7 +8,6 @@ import Cart from '../../cart';
 import { Link, useNavigate } from 'react-router-dom';
 import { cartActions, useCart } from '../../../Store';
 import { getToken, getUser } from '../../../helper/auth';
-import CartService from '../../../service/cart';
 
 const Header = () => {
   const [openCart, setOpenCart] = useState(false);

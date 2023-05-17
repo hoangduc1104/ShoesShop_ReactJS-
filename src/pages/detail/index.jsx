@@ -121,7 +121,6 @@ const Detail = () => {
 
     socket.on('newComment', (comment) => {
       setComments((prevComments) => [...prevComments, comment]);
-      console.log(comment);
     });
 
     loadComments();
@@ -138,8 +137,6 @@ const Detail = () => {
     );
     setComments(response);
   };
-
-  console.log(comments);
 
   return (
     <>
@@ -289,7 +286,14 @@ const Detail = () => {
                 </p>
               )}
               <div className="mt-0 mb-8 flex">
-                <Button rouded onClick={() => setRatingModal(true)}>
+                <Button
+                  rouded
+                  onClick={() =>
+                    getToken()
+                      ? setRatingModal(true)
+                      : navigate('/login', { replace: true })
+                  }
+                >
                   Mua
                 </Button>
                 <div className="ml-10">

@@ -29,9 +29,6 @@ const Comment = ({ setRatingModal, product_id }) => {
       user_id: getUser()._id,
     };
 
-    console.log(data);
-    console.log(query);
-
     await CommentService.postComment(query, data, getToken());
     setRatingModal(false);
   };
