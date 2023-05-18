@@ -6,6 +6,7 @@ import {
   SEARCH_KEY,
   SEARCH_MAX,
   SEARCH_MIN,
+  TYPING_USERS,
 } from './constant';
 
 export const getAllProduct = (payload) => ({
@@ -34,5 +35,9 @@ export const setSearchMax = (payload) => ({
 });
 export const setSearchMin = (payload) => ({
   type: SEARCH_MIN,
+  payload,
+});
+export const setTypingUser = (payload) => ({
+  type: TYPING_USERS,
   payload,
 });

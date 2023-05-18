@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { STYLES } from '../../constant';
-import ava from '../../ava.png';
 import { Rating, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import UserService from '../../service/user';

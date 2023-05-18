@@ -7,6 +7,7 @@ import {
   SEARCH_KEY,
   SEARCH_MAX,
   SEARCH_MIN,
+  TYPING_USERS,
 } from './constant';
 
 const initState = {
@@ -17,6 +18,7 @@ const initState = {
   searchKey: '',
   searchMax: '',
   searchMin: '',
+  typingUsers: false,
 };
 
 function reducer(state, action) {
@@ -55,6 +57,11 @@ function reducer(state, action) {
       return {
         ...state,
         searchMin: action.payload,
+      };
+    case TYPING_USERS:
+      return {
+        ...state,
+        typingUsers: action.payload,
       };
     default:
       throw new Error('INvalid Action');

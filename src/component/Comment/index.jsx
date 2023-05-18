@@ -1,8 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { STYLES } from '../../constant';
 import { Rating } from '@mui/material';
 import { getToken, getUser } from '../../helper/auth';
 import CommentService from '../../service/comment';
+import io from 'socket.io-client';
+import { productActions, useProducts } from '../../Store';
+
+const socket = io('http://localhost:3002');
 
 const Comment = ({ setRatingModal, product_id }) => {
   const [value, setvalue] = useState(0);
@@ -31,6 +35,7 @@ const Comment = ({ setRatingModal, product_id }) => {
 
     await CommentService.postComment(query, data, getToken());
     setRatingModal(false);
+    socket.emit('stopTyping');
   };
 
   function handleImageSelect(event) {
@@ -47,6 +52,30 @@ const Comment = ({ setRatingModal, product_id }) => {
       ref.current.src = imageUrl;
     };
   }
+
+  //xử lý socket
+  const [productState, productDispatch] = useProducts();
+  const [typingUsers, setTypingUsers] = useState([]);
+
+  const handleTyping = () => {
+    socket.emit('typing', getUser().username); // Thay 'Username' bằng tên người dùng thực tế
+  };
+  useEffect(() => {
+    // Lắng nghe sự kiện 'typing' từ server
+    socket.on('typing', (username) => {
+      setTypingUsers((prevTypingUsers) => [...prevTypingUsers, username]);
+      productDispatch(productActions.setTypingUser(true));
+    });
+
+    // Lắng nghe sự kiện 'stopTyping' từ server
+    socket.on('stopTyping', (username) => {
+      setTypingUsers((prevTypingUsers) =>
+        prevTypingUsers.filter((user) => user !== username)
+      );
+      productDispatch(productActions.setTypingUser(false));
+    });
+  }, []);
+
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -82,6 +111,13 @@ const Comment = ({ setRatingModal, product_id }) => {
               rows="4"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(e);
+                } else {
+                  handleTyping();
+                }
+              }}
               className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
               placeholder="Viết đánh giá..."
               required
@@ -118,7 +154,10 @@ const Comment = ({ setRatingModal, product_id }) => {
           </button>
           <button
             type="button"
-            onClick={() => setRatingModal(false)}
+            onClick={() => {
+              setRatingModal(false);
+              socket.emit('stopTyping');
+            }}
             className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
           >
             Huỷ

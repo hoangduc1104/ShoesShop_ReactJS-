@@ -5,3 +5,5 @@ export const SEARCH_RELOAD = 'search_reload';
 export const SEARCH_KEY = 'search_key';
 export const SEARCH_MAX = 'search_max';
 export const SEARCH_MIN = 'search_min';
+
+export const TYPING_USERS = 'typing_users';

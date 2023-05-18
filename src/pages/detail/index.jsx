@@ -8,7 +8,7 @@ import { useOutletContext } from 'react-router-dom';
 import ProductService from '../../service/product';
 import CartService from '../../service/cart';
 import { getToken, getUser } from '../../helper/auth';
-import { cartActions, useCart } from '../../Store';
+import { cartActions, useCart, useProducts } from '../../Store';
 import { setProductInCart } from '../../helper/cart';
 import Rating from './ratings';
 import p1 from '../../p1.jpg';
@@ -16,9 +16,11 @@ import Modal from '../../component/Modal';
 import CommentService from '../../service/comment';
 import io from 'socket.io-client';
 import { comment } from 'postcss';
+import Loader from '../../component/Loader';
 
 const Detail = () => {
   const [cartState, cartDispatch] = useCart();
+  const [productState, productDispatch] = useProducts();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -319,11 +321,16 @@ const Detail = () => {
               ({comments.length}) đánh giá.
             </span>
           </div>
-          {comments?.map((comment) => (
-            <div className="mt-6" key={comment._id}>
-              <Rating image={p1} comment={comment} />
-            </div>
-          ))}
+          <div>
+            {comments?.map((comment) => (
+              <div className="mt-6" key={comment._id}>
+                <Rating image={p1} comment={comment} />
+              </div>
+            ))}
+          </div>
+          {productState.typingUsers && (
+            <div className="mt-4">Có người đang comment...</div>
+          )}
         </div>
       </div>
       <Modal

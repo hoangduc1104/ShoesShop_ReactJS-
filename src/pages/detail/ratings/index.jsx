@@ -1,7 +1,9 @@
 import React from 'react';
 import UserItem from '../../../component/UserItem';
+import { useProducts } from '../../../Store';
 
 const Rating = ({ image, comment }) => {
+  const [productState, productDispatch] = useProducts();
   return (
     <>
       <UserItem data={comment} />
